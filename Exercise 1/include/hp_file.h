@@ -6,7 +6,9 @@
 
 /* Η δομή HP_info κρατάει μεταδεδομένα που σχετίζονται με το αρχείο σωρού*/
 typedef struct {
-    // Να το συμπληρώσετε
+    int* file;
+    int number_of_recs;
+    int number_of_blocks;
 } HP_info;
 
 /*Η συνάρτηση HP_CreateFile χρησιμοποιείται για τη δημιουργία και
