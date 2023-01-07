@@ -1,4 +1,5 @@
 Exercise_1/build/*
 Exercise_1/bin/
-Exercise_1/block_example.db
 Exercise_1/.cache
+Exercise_1/*.db
+Exercise_2/*.db
