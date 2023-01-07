@@ -171,4 +171,51 @@ int HP_InsertEntry(HP_info *hp_info, Record record) {
   return blockId;
 }
 
-int HP_GetAllEntries(HP_info *hp_info, int value) { return 0; }
+int HP_GetAllEntries(HP_info *hp_info, int value) { 
+  /* Αρχικοποιούμε μια εταβλητή όπου θα κρατάμε τον αριθμό των blocks που διαβάστηκαν
+   * σε -1. Αν δεν αλλάξει κατά την εκτέλεση της συνάρτησης, σημαίνει υπήρξε λάθος στην
+   * εκτέλεση και θα επιστραφεί -1. */
+  int read_blocks = -1;
+  int file_desc = hp_info->fileDesc;
+
+  /* Κρατάμε σε μια μεταβλητή των αριθμό όλων των block του αρχείου */
+  int blocks_num;
+  CALL_BF(BF_GetBlockCounter(file_desc, &blocks_num));
+
+  BF_Block *block;
+  BF_Block_Init(&block);
+
+  HP_block_info block_info;
+
+  void* data;
+  int block_info_offset = MAX_RECS * sizeof(Record);
+
+  int block_number = 1;
+  for (int i = 0; i < blocks_num; i++) {
+    /* Για το block που διαβάζουμε κάθε φορά, βρίσκουμε το HP_block_info, 
+     * όπου είναι αποθηκευμένος ο αριθμός των εγγραφών που έχουν γίνει σε 
+     * αυτό. */
+    CALL_BF(BF_GetBlock(file_desc, block_number, block));
+    data = BF_Block_GetData(block);
+
+    memcpy(&block_info, data + block_info_offset, sizeof(HP_block_info));
+
+    Record* recs;
+    recs = data;
+    /* Για κάθε εγγραφή του block, ελέγχουμε αν το id της ταυτίζεται με το 
+     * δοθέν value. Αν η σύγκριση είναι αληθής τυπώνουμε την εγγραφή αυτή */
+    for (int j = 0; j < block_info.recsNum; j++) {
+      if (recs[j].id == value) {
+        printRecord(recs[j]);
+        if (read_blocks != -1) 
+          read_blocks += i;
+        else
+          read_blocks = i;
+      }
+    }
+
+    block_number++;
+  }
+
+  return read_blocks; 
+}
