@@ -187,35 +187,33 @@ int HP_GetAllEntries(HP_info *hp_info, int value) {
 
   HP_block_info block_info;
 
-  void* data;
+  void *data;
   int block_info_offset = MAX_RECS * sizeof(Record);
 
-  int block_number = 1;
-  for (int i = 0; i < blocks_num; i++) {
-    /* Για το block που διαβάζουμε κάθε φορά, βρίσκουμε το HP_block_info, 
-     * όπου είναι αποθηκευμένος ο αριθμός των εγγραφών που έχουν γίνει σε 
+  /* Προσπέλαση των blocks */
+  for (int block_number = 1; block_number < blocks_num; block_number++) {
+
+    /* Για το block που διαβάζουμε κάθε φορά, βρίσκουμε το HP_block_info,
+     * όπου είναι αποθηκευμένος ο αριθμός των εγγραφών που έχουν γίνει σε
      * αυτό. */
     CALL_BF(BF_GetBlock(file_desc, block_number, block));
     data = BF_Block_GetData(block);
-
     memcpy(&block_info, data + block_info_offset, sizeof(HP_block_info));
 
-    Record* recs;
-    recs = data;
-    /* Για κάθε εγγραφή του block, ελέγχουμε αν το id της ταυτίζεται με το 
+    Record *recs = data;
+    /* Για κάθε εγγραφή του block, ελέγχουμε αν το id της ταυτίζεται με το
      * δοθέν value. Αν η σύγκριση είναι αληθής τυπώνουμε την εγγραφή αυτή */
-    for (int j = 0; j < block_info.recsNum; j++) {
-      if (recs[j].id == value) {
-        printRecord(recs[j]);
-        if (read_blocks != -1) 
-          read_blocks += i;
-        else
-          read_blocks = i;
+    for (int records = 0; records < block_info.recsNum; records++) {
+
+      if (recs[records].id == value) {
+
+        printRecord(recs[records]);
+        read_blocks = block_number;
       }
     }
-
-    block_number++;
+    
+    CALL_BF(BF_UnpinBlock(block));
   }
 
-  return read_blocks; 
+  return read_blocks;
 }
