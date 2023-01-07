@@ -167,14 +167,16 @@ int HP_InsertEntry(HP_info *hp_info, Record record) {
 
   BF_Block_SetDirty(block);
   CALL_BF(BF_UnpinBlock(block));
+  BF_Block_Destroy(&block);
 
   return blockId;
 }
 
-int HP_GetAllEntries(HP_info *hp_info, int value) { 
-  /* Αρχικοποιούμε μια εταβλητή όπου θα κρατάμε τον αριθμό των blocks που διαβάστηκαν
-   * σε -1. Αν δεν αλλάξει κατά την εκτέλεση της συνάρτησης, σημαίνει υπήρξε λάθος στην
-   * εκτέλεση και θα επιστραφεί -1. */
+int HP_GetAllEntries(HP_info *hp_info, int value) {
+
+  /* Αρχικοποιούμε μια μεταβλητή όπου θα κρατάμε τον αριθμό των blocks που
+   * διαβάστηκαν σε -1. Αν δεν αλλάξει κατά την εκτέλεση της συνάρτησης,
+   * σημαίνει υπήρξε λάθος στην εκτέλεση και θα επιστραφεί -1. */
   int read_blocks = -1;
   int file_desc = hp_info->fileDesc;
 
