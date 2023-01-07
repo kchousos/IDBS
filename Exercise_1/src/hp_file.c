@@ -49,6 +49,32 @@ int HP_CreateFile(char *fileName) {
   return 0;
 }
 
-HP_info *HP_OpenFile(char *fileName) { return NULL; }
+HP_info *HP_OpenFile(char *fileName) { 
+  int file_desc;
+  CALL_BF(BF_OpenFile(fileName, &file_desc));
+  HP_info* info = malloc(sizeof(HP_info));
+  info->fileDesc = file_desc;
 
-int HP_CloseFile(HP_info *hp_info) { return 0; }
+  BF_Block* block;
+  BF_Block_Init(&block);
+
+  CALL_BF(BF_GetBlock(file_desc, 0, block));
+  void* data = BF_Block_GetData(block);
+
+  memcpy(info, data, sizeof(HP_info));
+
+  return info; 
+}
+
+int HP_CloseFile(HP_info *hp_info) { 
+  return 0; 
+}
+
+int HP_InsertEntry(HP_info* hp_info, Record record){
+    return 0;
+}
+
+int HP_GetAllEntries(HP_info* hp_info, int value){
+   return 0;
+}
+
