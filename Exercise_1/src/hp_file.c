@@ -23,16 +23,19 @@ int HP_CreateFile(char *fileName) {
 
   BF_Block *block;
   BF_Block_Init(&block);
-  
+
   void *data;
   CALL_BF(BF_AllocateBlock(file_desc, block));
   data = BF_Block_GetData(block);
 
+  /* Αρχικοποίηση block_info. Πρόκειται για το πρώτο block, άρα το block 0 το
+   * οποίο έχει 0 records. Επίσης, εφόσον είναι το μόνο block αρχικά, δεν
+   * υπάρχει επόμενο block */
   int block_info_offset = MAX_RECS * sizeof(Record);
   HP_block_info block_info;
   block_info.blockDesc = 0;
   block_info.recsNum = 0;
-  block_info.nextBlock = NULL;
+  block_info.nextBlock = -1;
   memcpy(data + block_info_offset, &block_info, sizeof(block_info));
 
   HP_info info;
@@ -49,64 +52,65 @@ int HP_CreateFile(char *fileName) {
   return 0;
 }
 
-HP_info *HP_OpenFile(char *fileName) { 
+HP_info *HP_OpenFile(char *fileName) {
+
+  /* TODO: έλεγχος για αρχείο κατακερματισμού */
+
+  /* Δεν χρησιμοποιείται η CALL_BF διότι η συνάρτηση σε περίπτωση λάθους πρέπει
+   * να επιστρέφει NULL, όχι int */
+
   int file_desc;
-  CALL_BF(BF_OpenFile(fileName, &file_desc));
-  HP_info* info = malloc(sizeof(HP_info));
-  info->fileDesc = file_desc;
+  BF_OpenFile(fileName, &file_desc);
 
-  BF_Block* block;
+  /* Πρόσβαση στο block 0 */
+  BF_Block *block;
   BF_Block_Init(&block);
+  BF_GetBlock(file_desc, 0, block);
+  void *data = BF_Block_GetData(block);
 
-  CALL_BF(BF_GetBlock(file_desc, 0, block));
-  void* data = BF_Block_GetData(block);
+  /* Πρόσβαση στο HP_info του block 0 */
+  HP_info *info_of_block_0 = malloc(sizeof(HP_info));
+  memcpy(info_of_block_0, data, sizeof(HP_info));
 
-  memcpy(info, data, sizeof(HP_info));
+  /* Το file_desc του info αλλάζει από την κλήση της BF_OpenFile, άρα χρειάζεται
+   * να ενημερώσουμε την τιμή στο HP_info  */
+  info_of_block_0->fileDesc = file_desc;
+  /* Ενημέρωση του HP_info του block 0 */
+  memcpy(data, info_of_block_0, sizeof(HP_info));
 
-  return info; 
+  BF_Block_SetDirty(block);
+
+  BF_UnpinBlock(block);
+
+  return info_of_block_0;
 }
 
-int HP_CloseFile(HP_info *hp_info) { 
-  BF_Block* block;
+int HP_CloseFile(HP_info *hp_info) {
+
+  /* Βρίσκουμε πόσα blocks έχει το αρχείο */
+  int file_desc = hp_info->fileDesc;
+  int blocks_num;
+  CALL_BF(BF_GetBlockCounter(file_desc, &blocks_num));
+
+  BF_Block *block;
   BF_Block_Init(&block);
-  
-  CALL_BF(BF_GetBlock(hp_info->fileDesc, 0, block));
-  
-  int block_info_offset = MAX_RECS * sizeof(Record);
-  HP_block_info block_info;
-  void* data = BF_Block_GetData(block);
-  memcpy(&block_info, data + block_info_offset, sizeof(HP_block_info));
-  
-  CALL_BF(BF_UnpinBlock(block));
+
+  /* Κάνουμε unpin όλα τα blocks */
+  for (int block_number = 0; block_number < blocks_num; block_number++) {
+
+    CALL_BF(BF_GetBlock(file_desc, block_number, block));
+    CALL_BF(BF_UnpinBlock(block));
+  }
+
   BF_Block_Destroy(&block);
 
-  while (block_info.nextBlock != NULL) {
-    BF_Block* next_block;
-    BF_Block_Init(next_block);
-    
-    int counter;
-    CALL_BF(BF_GetBlockCounter(block_info.nextBlock, &counter));
-    CALL_BF(BF_GetBlock(hp_info->fileDesc, counter, next_block));
-    
-    void* data = BF_Block_GetData(next_block);
-    memcpy(&block_info, data + block_info_offset, sizeof(HP_block_info));
-
-    CALL_BF(BF_UnpinBlock(next_block));
-    BF_Block_Destroy(&next_block);
-  }
-  
-  int file_desc = hp_info->fileDesc;
+  /* κλείσιμο αρχείου */
+  CALL_BF(BF_CloseFile(file_desc));
   free(hp_info);
 
-  CALL_BF(BF_CloseFile(file_desc));
-  return 0; 
+  return 0;
 }
 
-int HP_InsertEntry(HP_info* hp_info, Record record){
-    return 0;
-}
+int HP_InsertEntry(HP_info *hp_info, Record record) { return 0; }
 
-int HP_GetAllEntries(HP_info* hp_info, int value){
-   return 0;
-}
-
+int HP_GetAllEntries(HP_info *hp_info, int value) { return 0; }

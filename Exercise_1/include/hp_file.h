@@ -9,7 +9,7 @@
 typedef struct {
   int blockDesc;
   int recsNum;
-  BF_Block *nextBlock;
+  int nextBlock;
 } HP_block_info;
 
 /* Η δομή HP_info κρατάει μεταδεδομένα που σχετίζονται με το αρχείο σωρού*/
