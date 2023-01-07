@@ -52,7 +52,3 @@ int HP_CreateFile(char *fileName) {
 HP_info *HP_OpenFile(char *fileName) { return NULL; }
 
 int HP_CloseFile(HP_info *hp_info) { return 0; }
-
-int HP_InsertEntry(HP_info *hp_info, Record record) { return 0; }
-
-int HP_GetAllEntries(HP_info *hp_info, int value) { return 0; }
