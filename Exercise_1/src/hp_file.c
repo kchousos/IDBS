@@ -111,6 +111,64 @@ int HP_CloseFile(HP_info *hp_info) {
   return 0;
 }
 
-int HP_InsertEntry(HP_info *hp_info, Record record) { return 0; }
+int HP_InsertEntry(HP_info *hp_info, Record record) {
+
+  int blockId;
+
+  /* Δημιουργία block */
+  BF_Block *block;
+  BF_Block_Init(&block);
+  CALL_BF(BF_GetBlock(hp_info->fileDesc, hp_info->lastBlockDesc, block));
+
+  /* Πρόσβαση στο block_info του τελευταίου block */
+  HP_block_info block_info;
+  void *data = BF_Block_GetData(block);
+  memcpy(&block_info, data + MAX_RECS * sizeof(Record), sizeof(HP_block_info));
+  CALL_BF(BF_UnpinBlock(block));
+
+  /* Έλεγχος διαθέσιμου χώρου */
+  int recs_size = block_info.recsNum * sizeof(Record);
+  int space_left_in_block = BF_BLOCK_SIZE - (recs_size + sizeof(HP_block_info));
+
+  /* Αν υπάρχει διαθέσιμος χώρος, γράψε στο τελευταίο block το record, αλλιώς
+   * φτιάξε καινούργιο block */
+  if (space_left_in_block >= sizeof(Record) && block_info.blockDesc != 0) {
+
+    /* Εγγραφή record */
+    memcpy(data + recs_size, &record, sizeof(Record));
+
+    /* Ενημέρωση block_info */
+    block_info.recsNum++;
+    memcpy(data + MAX_RECS * sizeof(Record), &block_info,
+           sizeof(HP_block_info));
+
+    blockId = block_info.blockDesc;
+  } else {
+
+    CALL_BF(BF_AllocateBlock(hp_info->fileDesc, block));
+
+    /* Εισαγωγή record */
+    data = BF_Block_GetData(block);
+    memcpy(data, &record, sizeof(Record));
+
+    /* Ενημέρωση block_info καινούργιου block */
+    block_info.recsNum = 1;
+    block_info.blockDesc = hp_info->lastBlockDesc + 1;
+    block_info.nextBlock = block_info.blockDesc + 1;
+
+    memcpy(data + MAX_RECS * sizeof(Record), &block_info,
+           sizeof(HP_block_info));
+
+    /* Ενημέρωση hp_info */
+    hp_info->lastBlockDesc = block_info.blockDesc;
+
+    CALL_BF(BF_UnpinBlock(block));
+  }
+
+  BF_Block_SetDirty(block);
+  CALL_BF(BF_UnpinBlock(block));
+
+  return blockId;
+}
 
 int HP_GetAllEntries(HP_info *hp_info, int value) { return 0; }
