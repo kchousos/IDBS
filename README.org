@@ -1,0 +1,43 @@
+:LATEX_PROPERTIES:
+#+LATEX_COMPILER: xelatex
+#+LATEX_CLASS: article
+#+LATEX_CLASS_OPTIONS: [a4paper, notitlepage]
+
+#+LATEX_HEADER: \usepackage{polyglossia}
+#+LATEX_HEADER: \setmainlanguage{greek}
+#+LATEX_HEADER: \setotherlanguage{english}
+
+#+LATEX_HEADER: \usepackage{microtype}
+
+#+LATEX_HEADER: \usepackage{newcomputermodern}
+
+#+LATEX_HEADER: \usepackage{biblatex}
+
+#+LATEX_HEADER: \usepackage[margin=1.3in]{geometry}
+
+#+LATEX_HEADER: \renewcommand{\baselinestretch}{1.2}
+
+#+LATEX_HEADER: \usemintedstyle{friendly}
+#+LATEX_HEADER: \setminted{frame=single, framesep=2mm}
+
+#+LATEX_HEADER: \usepackage{fancyhdr}
+#+LATEX_HEADER: \pagestyle{fancy}
+#+LATEX_HEADER: \rhead{Κωνσταντίνος Χούσος, Αναστάσιος-Φαίδων Σεϊτανίδης}
+#+LATEX_HEADER: \lhead{\textit{Εργασίες 1 \& 2}}
+
+#+LATEX_HEADER: \usepackage{titlesec}
+#+LATEX_HEADER: \titleformat{\section}{\large \center \bf \uppercase}{\thesection}{0.5em}{}{}
+:END:
+#+TITLE: Υλοποίηση Συστημάτων Βάσεων Δεδομένων
+#+SUBTITLE: Εργασίες 1 & 2
+#+AUTHOR: Κωνσταντίνος Χούσος @@latex:\\ \small{ΑΜ: 1115202000215} \and@@ Αναστάσιος-Φαίδων Σεϊτανίδης @@latex:\\ \small{ΑΜ: 1115202000179}@@
+#+OPTIONS: num:t toc:nil date:nil timestamp:nil
+
+* COMMENT Σημειώσεις
+** TODO "Ιδανικά θέλουμε το block αυτό να παραμένει στην ενδιάμεση μνήμη και να γίνει unpin με το κλείσιμο του αρχείου"
+** TODO έλεγχος για αρχείο κατακερματισμού
+
+* COMMENT Local Variables
+# Local Variables:
+# org-latex-hyperref-template: "\\hypersetup{pdfauthor={Κωνσταντίνος Χούσος, Αναστάσιος-Φαίδων Σεϊτανίδης},pdftitle={%t},pdfkeywords={%k},pdfsubject={%d},pdfcreator={%c}, pdflang={%L},colorlinks,linkcolor=blue,citecolor=red,urlcolor=blue}"
+# End:
