@@ -69,18 +69,20 @@ HP_info *HP_OpenFile(char *fileName) {
   void *data = BF_Block_GetData(block);
 
   /* Πρόσβαση στο HP_info του block 0 */
-  HP_info *info_of_block_0 = malloc(sizeof(HP_info));
-  memcpy(info_of_block_0, data, sizeof(HP_info));
+  HP_info *hp_info = malloc(sizeof(HP_info));
+  memcpy(hp_info, data, sizeof(HP_info));
 
   /* Το file_desc του info αλλάζει από την κλήση της BF_OpenFile, άρα χρειάζεται
    * να ενημερώσουμε την τιμή στο HP_info  */
-  info_of_block_0->fileDesc = file_desc;
+  hp_info->fileDesc = file_desc;
   /* Ενημέρωση του HP_info του block 0 */
-  memcpy(data, info_of_block_0, sizeof(HP_info));
+  memcpy(data, hp_info, sizeof(HP_info));
 
   BF_Block_SetDirty(block);
 
-  return info_of_block_0;
+  BF_UnpinBlock(block);
+
+  return hp_info;
 }
 
 int HP_CloseFile(HP_info *hp_info) {
