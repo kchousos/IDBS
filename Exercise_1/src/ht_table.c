@@ -16,15 +16,15 @@
   }
 
 int HT_CreateFile(char *fileName, int buckets) { 
-  CALL_BF(BF_CreateFile(fileName));
+  CALL_OR_DIE(BF_CreateFile(fileName));
   int file_desc;
-  CALL_BF(BF_OpenFile(fileName, &file_desc));
+  CALL_OR_DIE(BF_OpenFile(fileName, &file_desc));
 
   BF_Block *block;
   BF_Block_Init(&block);
 
   void *data;
-  CALL_BF(BF_AllocateBlock(file_desc, block));
+  CALL_OR_DIE(BF_AllocateBlock(file_desc, block));
   data = BF_Block_GetData(block);
 
   /* Αρχικοποίηση block_info. Πρόκειται για το πρώτο block, άρα το block 0 το
@@ -42,9 +42,9 @@ int HT_CreateFile(char *fileName, int buckets) {
 
   BF_Block_SetDirty(block);
 
-  CALL_BF(BF_UnpinBlock(block));
+  CALL_OR_DIE(BF_UnpinBlock(block));
 
-  CALL_BF(BF_CloseFile(file_desc));
+  CALL_OR_DIE(BF_CloseFile(file_desc));
 
   return 0; 
 }
