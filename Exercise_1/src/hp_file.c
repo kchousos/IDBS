@@ -80,8 +80,6 @@ HP_info *HP_OpenFile(char *fileName) {
 
   BF_Block_SetDirty(block);
 
-  BF_UnpinBlock(block);
-
   return info_of_block_0;
 }
 
@@ -161,7 +159,7 @@ int HP_InsertEntry(HP_info *hp_info, Record record) {
 
     /* Ενημέρωση hp_info */
     hp_info->lastBlockDesc = block_info.blockDesc;
-
+    
     CALL_BF(BF_UnpinBlock(block));
   }
 
