@@ -12,7 +12,7 @@ typedef struct {
   int nextBlock;
 } HP_block_info;
 
-/* Η δομή HP_info κρατάει μεταδεδομένα που σχετίζονται με το αρχείο σωρού*/
+/* Η δομή HP_info κρατάει μεταδεδομένα που σχετίζονται με το αρχείο σωρού */
 typedef struct {
   int fileDesc;
   int lastBlockDesc;

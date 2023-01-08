@@ -10,7 +10,9 @@ typedef struct {
 } HT_info;
 
 typedef struct {
-
+  int blockDesc;
+  int recsNum;
+  int nextBlock;
 } HT_block_info;
 
 /*Η συνάρτηση HT_CreateFile χρησιμοποιείται για τη δημιουργία
