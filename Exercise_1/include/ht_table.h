@@ -6,11 +6,12 @@
 
 
 typedef struct {
-    // Να το συμπληρώσετε
+    int fileDesc;
+    long int numBuckets;
 } HT_info;
 
 typedef struct {
-    // Να το συμπληρώσετε
+    
 } HT_block_info;
 
 /*Η συνάρτηση HT_CreateFile χρησιμοποιείται για τη δημιουργία

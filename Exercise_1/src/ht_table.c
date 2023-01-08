@@ -6,16 +6,48 @@
 #include "ht_table.h"
 #include "record.h"
 
-#define CALL_OR_DIE(call)                                                      \
-  {                                                                            \
-    BF_ErrorCode code = call;                                                  \
-    if (code != BF_OK) {                                                       \
-      BF_PrintError(code);                                                     \
-      exit(code);                                                              \
-    }                                                                          \
+#define CALL_OR_DIE(call)      \
+  {                            \
+    BF_ErrorCode code = call;  \
+    if (code != BF_OK) {       \
+      BF_PrintError(code);     \
+      exit(code);              \
+    }                          \
   }
 
-int HT_CreateFile(char *fileName, int buckets) { return 0; }
+int HT_CreateFile(char *fileName, int buckets) { 
+  CALL_BF(BF_CreateFile(fileName));
+  int file_desc;
+  CALL_BF(BF_OpenFile(fileName, &file_desc));
+
+  BF_Block *block;
+  BF_Block_Init(&block);
+
+  void *data;
+  CALL_BF(BF_AllocateBlock(file_desc, block));
+  data = BF_Block_GetData(block);
+
+  /* Αρχικοποίηση block_info. Πρόκειται για το πρώτο block, άρα το block 0 το
+   * οποίο έχει 0 records. Επίσης, εφόσον είναι το μόνο block αρχικά, δεν
+   * υπάρχει επόμενο block */
+  int block_info_offset = MAX_RECS * sizeof(Record);
+  HT_block_info block_info;
+  /* TODO: Να συμπληρώσουμε τις πληροφορίες του HT_block_info */
+  memcpy(data + block_info_offset, &block_info, sizeof(block_info));
+
+  HT_info info;
+  info.fileDesc = file_desc;
+  info.numBuckets = buckets;
+  memcpy(data, &info, sizeof(info));
+
+  BF_Block_SetDirty(block);
+
+  CALL_BF(BF_UnpinBlock(block));
+
+  CALL_BF(BF_CloseFile(file_desc));
+
+  return 0; 
+}
 
 HT_info *HT_OpenFile(char *fileName) { return NULL; }
 
