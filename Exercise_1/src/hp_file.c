@@ -213,7 +213,7 @@ int HP_GetAllEntries(HP_info *hp_info, int value) {
         read_blocks = block_number;
       }
     }
-    
+
     CALL_BF(BF_UnpinBlock(block));
   }
 
