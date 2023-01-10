@@ -3,21 +3,7 @@
 #include "bf.h"
 #include <record.h>
 
-#define MAX_RECS (BF_BLOCK_SIZE - sizeof(HT_block_info))/sizeof(Record)
-
-/* Η δομή HT_info κρατάει μεταδεδομένα που σχετίζονται με το αρχείο
- * κατακερματισμού. Το hashtable πρόκειται για έναν διπλό pointer σε blocks. Ο
- * αριθμός του εκάστοτε κάδου ταυτίζεται με τη θέση στον πίνακα hashtable.
- * Δηλαδή, για να βρούμε τον κάδο 2 πηγαίνουμε στο hashtable[2]. Το τελευταίο θα
- * περιέχει έναν δείκτη στο block του κάδου 2 που προστέθηκε πιο πρόσφατα. Αυτό
- * με τη σειρά του δείχνει στο προηγούμενο πιο πρόσφατο block του κάδου (εάν
- * υπάρχει) κι ούτω καθεξής. */
-typedef struct {
-  int fileDesc;
-  long int numBuckets;
-  BF_Block **hashtable;
-  int isHT;
-} HT_info;
+#define MAX_RECS (BF_BLOCK_SIZE - sizeof(HT_block_info)) / sizeof(Record)
 
 /* Η δομή HT_block_info κρατάει μεταδεδομένα που σχετίζονται με το block. Ο
  * prevBlockDesc χαρακτηρίζει το προηγούμενο block του εκάστοτε κάδου.
@@ -25,7 +11,23 @@ typedef struct {
 typedef struct {
   int blockDesc;
   int prevBlockDesc;
+  int recsNum;
 } HT_block_info;
+
+/* Η δομή HT_info κρατάει μεταδεδομένα που σχετίζονται με το αρχείο
+ * κατακερματισμού. Το hashtable πρόκειται για έναν πίνακα από int. Ο
+ * αριθμός του εκάστοτε κάδου ταυτίζεται με τη θέση στον πίνακα hashtable.
+ * Δηλαδή, για να βρούμε τον κάδο 2 πηγαίνουμε στο hashtable[2]. Το τελευταίο θα
+ * περιέχει τον αριθμό του block του κάδου 2 που προστέθηκε πιο πρόσφατα. Αυτό
+ * με τη σειρά του περιέχει τον αριθμό του προηγούμενου πιο πρόσφατου block του
+ * κάδου (εάν υπάρχει) κι ούτω καθεξής. */
+typedef struct {
+  int fileDesc;
+  int lastBlockDesc;
+  long int numBuckets;
+  int *hashtable;
+  int isHT;
+} HT_info;
 
 /*Η συνάρτηση HT_CreateFile χρησιμοποιείται για τη δημιουργία
 και κατάλληλη αρχικοποίηση ενός άδειου αρχείου κατακερματισμού
