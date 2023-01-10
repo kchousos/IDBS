@@ -8,6 +8,7 @@
 typedef struct {
     int fileDesc;
     long int numBuckets;
+    int hashTable[numBuckets][numBuckets];
 } HT_info;
 
 typedef struct {
