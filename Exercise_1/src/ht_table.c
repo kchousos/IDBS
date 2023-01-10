@@ -17,37 +17,38 @@
 
 int HT_CreateFile(char *fileName, int buckets) {
 
-  CALL_BF(BF_CreateFile(fileName));
+  CALL_OR_DIE(BF_CreateFile(fileName));
   int file_desc;
-  CALL_BF(BF_OpenFile(fileName, &file_desc));
+  CALL_OR_DIE(BF_OpenFile(fileName, &file_desc));
 
   BF_Block *block;
   BF_Block_Init(&block);
 
   void *data;
-  CALL_BF(BF_AllocateBlock(file_desc, block));
+  CALL_OR_DIE(BF_AllocateBlock(file_desc, block));
   data = BF_Block_GetData(block);
 
   /* Αρχικοποίηση block_info. Πρόκειται για το πρώτο block, άρα το block 0 το
    * οποίο έχει 0 records. Επίσης, εφόσον είναι το μόνο block αρχικά, δεν
    * υπάρχει επόμενο block */
   int block_info_offset = MAX_RECS * sizeof(Record);
-  HP_block_info block_info;
+  HT_block_info block_info;
   block_info.blockDesc = 0;
-  block_info.recsNum = 0;
-  block_info.nextBlock = -1;
+  block_info.prevBlockDesc = -1;
   memcpy(data + block_info_offset, &block_info, sizeof(block_info));
 
-  HP_info info;
+  HT_info info;
   info.fileDesc = file_desc;
-  info.lastBlockDesc = 0;
+  info.numBuckets = buckets;
+  info.isHT = 1;
+  /* info.hashtable[buckets]; */
   memcpy(data, &info, sizeof(info));
 
   BF_Block_SetDirty(block);
 
-  CALL_BF(BF_UnpinBlock(block));
+  CALL_OR_DIE(BF_UnpinBlock(block));
 
-  CALL_BF(BF_CloseFile(file_desc));
+  CALL_OR_DIE(BF_CloseFile(file_desc));
 
   return 0;
 

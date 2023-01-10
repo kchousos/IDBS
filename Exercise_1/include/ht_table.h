@@ -3,6 +3,8 @@
 #include "bf.h"
 #include <record.h>
 
+#define MAX_RECS (BF_BLOCK_SIZE - sizeof(HT_block_info))/sizeof(Record)
+
 /* Η δομή HT_info κρατάει μεταδεδομένα που σχετίζονται με το αρχείο
  * κατακερματισμού. Το hashtable πρόκειται για έναν διπλό pointer σε blocks. Ο
  * αριθμός του εκάστοτε κάδου ταυτίζεται με τη θέση στον πίνακα hashtable.
@@ -14,6 +16,7 @@ typedef struct {
   int fileDesc;
   long int numBuckets;
   BF_Block **hashtable;
+  int isHT;
 } HT_info;
 
 /* Η δομή HT_block_info κρατάει μεταδεδομένα που σχετίζονται με το block. Ο
