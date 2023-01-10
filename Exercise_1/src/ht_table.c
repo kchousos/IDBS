@@ -88,7 +88,31 @@ HT_info *HT_OpenFile(char *fileName) {
   return ht_info;
 }
 
-int HT_CloseFile(HT_info *HT_info) { return 0; }
+int HT_CloseFile(HT_info *ht_info) {
+
+  /* Βρίσκουμε πόσα blocks έχει το αρχείο */
+  int file_desc = ht_info->fileDesc;
+  int blocks_num;
+  CALL_OR_DIE(BF_GetBlockCounter(file_desc, &blocks_num));
+
+  BF_Block *block;
+  BF_Block_Init(&block);
+
+  /* Κάνουμε unpin όλα τα blocks */
+  for (int block_number = 0; block_number < blocks_num; block_number++) {
+
+    CALL_OR_DIE(BF_GetBlock(file_desc, block_number, block));
+    CALL_OR_DIE(BF_UnpinBlock(block));
+  }
+
+  BF_Block_Destroy(&block);
+
+  /* κλείσιμο αρχείου */
+  CALL_OR_DIE(BF_CloseFile(file_desc));
+  free(ht_info);
+
+  return 0;
+}
 
 int HT_InsertEntry(HT_info *ht_info, Record record) { return 0; }
 
