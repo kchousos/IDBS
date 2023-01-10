@@ -51,10 +51,42 @@ int HT_CreateFile(char *fileName, int buckets) {
   CALL_OR_DIE(BF_CloseFile(file_desc));
 
   return 0;
-
 }
 
-HT_info *HT_OpenFile(char *fileName) { return NULL; }
+HT_info *HT_OpenFile(char *fileName) {
+
+  /* Δεν χρησιμοποιείται η CALL_OR_DIE διότι η συνάρτηση σε περίπτωση λάθους
+   * πρέπει να επιστρέφει NULL, όχι int */
+
+  int file_desc;
+  BF_OpenFile(fileName, &file_desc);
+
+  /* Πρόσβαση στο block 0 */
+  BF_Block *block;
+  BF_Block_Init(&block);
+  BF_GetBlock(file_desc, 0, block);
+  void *data = BF_Block_GetData(block);
+
+  /* Πρόσβαση στο HT_info του block 0 */
+  HT_info *ht_info = malloc(sizeof(HT_info));
+  memcpy(ht_info, data, sizeof(HT_info));
+
+  /* έλεγχος για αρχείο κατακερματισμού */
+  if (!ht_info->isHT)
+    return NULL;
+
+  /* Το file_desc του info αλλάζει από την κλήση της BF_OpenFile, άρα χρειάζεται
+   * να ενημερώσουμε την τιμή στο HT_info  */
+  ht_info->fileDesc = file_desc;
+  /* Ενημέρωση του HT_info του block 0 */
+  memcpy(data, ht_info, sizeof(HT_info));
+
+  BF_Block_SetDirty(block);
+
+  BF_UnpinBlock(block);
+
+  return ht_info;
+}
 
 int HT_CloseFile(HT_info *HT_info) { return 0; }
 
