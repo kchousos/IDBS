@@ -41,6 +41,7 @@ int HP_CreateFile(char *fileName) {
   HP_info info;
   info.fileDesc = file_desc;
   info.lastBlockDesc = 0;
+  info.isHT = 0;
   memcpy(data, &info, sizeof(info));
 
   BF_Block_SetDirty(block);
@@ -53,8 +54,6 @@ int HP_CreateFile(char *fileName) {
 }
 
 HP_info *HP_OpenFile(char *fileName) {
-
-  /* TODO: έλεγχος για αρχείο κατακερματισμού */
 
   /* Δεν χρησιμοποιείται η CALL_BF διότι η συνάρτηση σε περίπτωση λάθους πρέπει
    * να επιστρέφει NULL, όχι int */
@@ -71,6 +70,10 @@ HP_info *HP_OpenFile(char *fileName) {
   /* Πρόσβαση στο HP_info του block 0 */
   HP_info *hp_info = malloc(sizeof(HP_info));
   memcpy(hp_info, data, sizeof(HP_info));
+
+  /* έλεγχος για αρχείο κατακερματισμού */
+  if (hp_info->isHT)
+    return NULL;
 
   /* Το file_desc του info αλλάζει από την κλήση της BF_OpenFile, άρα χρειάζεται
    * να ενημερώσουμε την τιμή στο HP_info  */
@@ -161,7 +164,7 @@ int HP_InsertEntry(HP_info *hp_info, Record record) {
 
     /* Ενημέρωση hp_info */
     hp_info->lastBlockDesc = block_info.blockDesc;
-    
+
     CALL_BF(BF_UnpinBlock(block));
   }
 

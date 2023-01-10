@@ -17,6 +17,7 @@ typedef struct {
 typedef struct {
   int fileDesc;
   int lastBlockDesc;
+  int isHT;
 } HP_info;
 
 /*Η συνάρτηση HP_CreateFile χρησιμοποιείται για τη δημιουργία και
