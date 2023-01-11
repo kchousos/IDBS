@@ -216,4 +216,60 @@ int HT_InsertEntry(HT_info *ht_info, Record record) {
   return blockId;
 }
 
-int HT_GetAllEntries(HT_info *ht_info, void *value) { return 0; }
+int HT_GetAllEntries(HT_info *ht_info, void *value) {
+
+  /* Αρχικοποιούμε μια μεταβλητή όπου θα κρατάμε τον αριθμό των blocks που
+   * διαβάστηκαν σε -1. Αν δεν αλλάξει κατά την εκτέλεση της συνάρτησης,
+   * σημαίνει υπήρξε λάθος στην εκτέλεση και θα επιστραφεί -1. */
+  int read_blocks = -1;
+  int file_desc = ht_info->fileDesc;
+
+  /* Έυρεση του bucket στον οποίο περιέχονται τα στοιχεία με id == value */
+  int bucket = *(int*) value % ht_info->numBuckets;
+
+  BF_Block *block;
+  BF_Block_Init(&block);
+
+  HT_block_info block_info;
+
+  void *data;
+  int block_info_offset = MAX_RECS * sizeof(Record);
+
+  int block_to_read = ht_info->hashtable[bucket];
+
+  int blocks_that_were_read = 0;
+
+  /* Προσπέλαση των blocks του bucket */
+  while (block_to_read != -1) {
+
+    blocks_that_were_read++;
+
+    /* Για το block που διαβάζουμε κάθε φορά, βρίσκουμε το HT_block_info,
+     * όπου είναι αποθηκευμένος ο αριθμός των εγγραφών που έχουν γίνει σε
+     * αυτό. */
+    CALL_OR_DIE(BF_GetBlock(file_desc, block_to_read, block));
+    data = BF_Block_GetData(block);
+    CALL_OR_DIE(BF_UnpinBlock(block));
+
+    memcpy(&block_info, data + block_info_offset, sizeof(HT_block_info));
+
+    Record *recs = data;
+
+    /* Για κάθε εγγραφή του block, ελέγχουμε αν το id της ταυτίζεται με το
+     * δοθέν value. Αν η σύγκριση είναι αληθής τυπώνουμε την εγγραφή αυτή */
+    for (int records = 0; records < block_info.recsNum; records++) {
+
+      if (recs[records].id == *(int*) value) {
+
+        printRecord(recs[records]);
+        read_blocks = blocks_that_were_read;
+      }
+    }
+
+    block_to_read = block_info.prevBlockDesc;
+  }
+
+  BF_Block_Destroy(&block);
+
+  return read_blocks;
+}
