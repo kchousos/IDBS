@@ -48,6 +48,8 @@ int HT_CreateFile(char *fileName, int buckets) {
 
   CALL_OR_DIE(BF_UnpinBlock(block));
 
+  BF_Block_Destroy(&block);
+
   CALL_OR_DIE(BF_CloseFile(file_desc));
 
   return 0;
@@ -77,7 +79,7 @@ HT_info *HT_OpenFile(char *fileName) {
 
   /* Αρχικοποίηση hashtable στην μνήμη */
   ht_info->hashtable = malloc(sizeof(int) * ht_info->numBuckets);
-  for (int bucket; bucket < ht_info->numBuckets; bucket++)
+  for (int bucket = 0; bucket < ht_info->numBuckets; bucket++)
     ht_info->hashtable[bucket] = -1;
 
   /* Το file_desc του info αλλάζει από την κλήση της BF_OpenFile, άρα χρειάζεται
@@ -89,6 +91,8 @@ HT_info *HT_OpenFile(char *fileName) {
   BF_Block_SetDirty(block);
 
   BF_UnpinBlock(block);
+
+  BF_Block_Destroy(&block);
 
   return ht_info;
 }
@@ -135,20 +139,20 @@ int HT_InsertEntry(HT_info *ht_info, Record record) {
     CALL_OR_DIE(BF_AllocateBlock(ht_info->fileDesc, new_block));
 
     ht_info->lastBlockDesc++;
+    ht_info->hashtable[bucket] = ht_info->lastBlockDesc;
 
     /* Αρχικοποίηση block_info */
-    ht_info->hashtable[bucket] = ht_info->lastBlockDesc;
     void *data = BF_Block_GetData(new_block);
     HT_block_info block_info;
-    block_info.blockDesc = 0;
+    block_info.blockDesc = ht_info->lastBlockDesc;
     block_info.prevBlockDesc = -1;
     block_info.recsNum = 0;
     int block_info_offset = MAX_RECS * sizeof(Record);
     memcpy(data + block_info_offset, &block_info, sizeof(block_info));
 
     BF_Block_SetDirty(new_block);
-
-    BF_UnpinBlock(new_block);
+    CALL_OR_DIE(BF_UnpinBlock(new_block));
+    BF_Block_Destroy(&new_block);
   }
 
   /* Δημιουργία block */
@@ -193,15 +197,21 @@ int HT_InsertEntry(HT_info *ht_info, Record record) {
     block_info.blockDesc = ht_info->lastBlockDesc + 1;
     block_info.prevBlockDesc = ht_info->hashtable[bucket];
 
-    memcpy(data + MAX_RECS * sizeof(Record), &block_info,
-           sizeof(HT_block_info));
-
     /* Ενημέρωση ht_info */
     ht_info->lastBlockDesc = block_info.blockDesc;
     ht_info->hashtable[bucket] = block_info.blockDesc;
 
+    memcpy(data + MAX_RECS * sizeof(Record), &block_info,
+           sizeof(HT_block_info));
+
+    blockId = block_info.blockDesc;
+
     CALL_OR_DIE(BF_UnpinBlock(block));
   }
+
+  BF_Block_SetDirty(block);
+  CALL_OR_DIE(BF_UnpinBlock(block));
+  BF_Block_Destroy(&block);
 
   return blockId;
 }

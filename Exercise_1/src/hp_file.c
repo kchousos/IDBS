@@ -48,6 +48,8 @@ int HP_CreateFile(char *fileName) {
 
   CALL_BF(BF_UnpinBlock(block));
 
+  BF_Block_Destroy(&block);
+
   CALL_BF(BF_CloseFile(file_desc));
 
   return 0;
@@ -84,6 +86,8 @@ HP_info *HP_OpenFile(char *fileName) {
   BF_Block_SetDirty(block);
 
   BF_UnpinBlock(block);
+
+  BF_Block_Destroy(&block);
 
   return hp_info;
 }
@@ -165,7 +169,10 @@ int HP_InsertEntry(HP_info *hp_info, Record record) {
     /* Ενημέρωση hp_info */
     hp_info->lastBlockDesc = block_info.blockDesc;
 
+    blockId = block_info.blockDesc;
+
     CALL_BF(BF_UnpinBlock(block));
+
   }
 
   BF_Block_SetDirty(block);
@@ -203,6 +210,8 @@ int HP_GetAllEntries(HP_info *hp_info, int value) {
      * αυτό. */
     CALL_BF(BF_GetBlock(file_desc, block_number, block));
     data = BF_Block_GetData(block);
+    CALL_BF(BF_UnpinBlock(block));
+
     memcpy(&block_info, data + block_info_offset, sizeof(HP_block_info));
 
     Record *recs = data;
@@ -216,9 +225,9 @@ int HP_GetAllEntries(HP_info *hp_info, int value) {
         read_blocks = block_number;
       }
     }
-
-    CALL_BF(BF_UnpinBlock(block));
   }
+
+  BF_Block_Destroy(&block);
 
   return read_blocks;
 }

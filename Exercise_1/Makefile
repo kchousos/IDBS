@@ -10,3 +10,5 @@ ht:
 	@echo " Compile hp_main ...";
 	gcc -g -I ./include/ -L ./lib/ -Wl,-rpath,./lib/ ./examples/ht_main.c ./src/record.c ./src/ht_table.c -lbf -o ./build/ht_main -O2
 
+run: bf
+	rm data.db;	./build/ht_main
