@@ -15,7 +15,7 @@
 
 #+LATEX_HEADER: \usepackage[font={small}, labelfont={bf}]{caption}
 
-#+latex_header: \setmainfont{Iosevka Aile Extralight}
+#+LATEX_HEADER: \setmainfont{Iosevka Aile Extralight}
 
 #+LATEX_HEADER: \usepackage{biblatex}
 
