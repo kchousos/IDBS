@@ -118,7 +118,7 @@ int HT_CloseFile(HT_info *ht_info) {
 
   /* κλείσιμο αρχείου */
   CALL_OR_DIE(BF_CloseFile(file_desc));
-  free(ht_info->hashtable); /* TODO: test if it is necessary */
+  free(ht_info->hashtable);
   free(ht_info);
 
   return 0;

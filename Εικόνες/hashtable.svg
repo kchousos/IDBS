@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="137.04903mm"
+   height="74.809799mm"
+   viewBox="0 0 137.04903 74.809799"
+   version="1.1"
+   id="svg5"
+   sodipodi:docname="hashtable.svg"
+   inkscape:export-filename="hashtable.svg"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview38"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="1.7241493"
+     inkscape:cx="185.01878"
+     inkscape:cy="182.98879"
+     inkscape:window-width="2560"
+     inkscape:window-height="1371"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg5" />
+  <defs
+     id="defs2">
+    <marker
+       style="overflow:visible"
+       id="Arrow2"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       markerWidth="7.6999998"
+       markerHeight="5.5999999"
+       viewBox="0 0 7.7 5.6"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.7)"
+         d="M -2,-4 9,0 -2,4 c 2,-2.33 2,-5.66 0,-8 z"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
+         id="arrow2L" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Arrow2-7"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       markerWidth="7.6999998"
+       markerHeight="5.5999999"
+       viewBox="0 0 7.7 5.6"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.7)"
+         d="M -2,-4 9,0 -2,4 c 2,-2.33 2,-5.66 0,-8 z"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
+         id="arrow2L-5" />
+    </marker>
+  </defs>
+  <rect
+     style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.113615;stroke-linejoin:bevel"
+     id="rect679"
+     width="106.95135"
+     height="74.761879"
+     x="12.747858"
+     y="0.056807354" />
+  <g
+     id="layer1"
+     transform="translate(99.694151,-17.252806)">
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.118249;stroke-dasharray:none"
+       id="rect215"
+       width="23.419287"
+       height="14.587375"
+       x="123.42717"
+       y="24.758389"
+       d="m 16.345377,33.394171 h -93.67715 m 93.67715,14.587374 h -93.67715 M 16.345377,33.394171 V 47.981545 M -7.0739133,33.394171 V 47.981545 M -30.493203,33.394171 V 47.981545 M -53.912487,33.394171 V 47.981545 M -77.331773,33.394171 v 14.587374" />
+    <text
+       xml:space="preserve"
+       style="font-size:3.175px;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#000000;fill-opacity:0.745098;stroke:none;stroke-width:0.338138;stroke-dasharray:none"
+       x="-46.573772"
+       y="-81.521439"
+       id="text2169"
+       transform="rotate(-90)"><tspan
+         style="font-size:3.175px;fill:#000000;stroke:none;stroke-width:0.338138"
+         x="-46.573772"
+         y="-81.521439"
+         id="tspan1164">\footnotesize hashtable</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.175px;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#000000;fill-opacity:0.745098;stroke:none;stroke-width:0.338138;stroke-dasharray:none"
+       x="-65.919807"
+       y="30.149506"
+       id="text2223"><tspan
+         id="tspan2221"
+         style="stroke-width:0.338138"
+         x="-65.919807"
+         y="30.149506">1</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.175px;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#000000;fill-opacity:0.745098;stroke:none;stroke-width:0.338138;stroke-dasharray:none"
+       x="-42.260399"
+       y="30.16538"
+       id="text2227"><tspan
+         id="tspan2225"
+         style="stroke-width:0.338138"
+         x="-42.260399"
+         y="30.16538">2</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.175px;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#000000;fill-opacity:0.745098;stroke:none;stroke-width:0.338138;stroke-dasharray:none"
+       x="-19.903847"
+       y="30.16538"
+       id="text2231"><tspan
+         id="tspan2229"
+         style="stroke-width:0.338138"
+         x="-19.903847"
+         y="30.16538">3</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.175px;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#000000;fill-opacity:0.745098;stroke:none;stroke-width:0.338138;stroke-dasharray:none"
+       x="4.1352081"
+       y="30.17173"
+       id="text2235"><tspan
+         id="tspan2233"
+         style="stroke-width:0.338138"
+         x="4.1352081"
+         y="30.17173">4</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.175px;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#000000;fill-opacity:0.745098;stroke:none;stroke-width:0.338138;stroke-dasharray:none"
+       x="-33.502365"
+       y="20.042948"
+       id="text2239"><tspan
+         id="tspan2237"
+         style="stroke-width:0.338138"
+         x="-33.502365"
+         y="20.042948">\footnotesize κάδοι</tspan></text>
+    <path
+       style="fill:none;fill-opacity:0.745098;stroke:#000000;stroke-width:0.159;stroke-linejoin:bevel;stroke-dasharray:none"
+       d="m -77.375745,27.882555 c -0.360652,-5.97972 41.055789,-0.381819 46.882542,-5.582322 5.82236,5.22886 46.79149,-0.157824 46.88255,5.591846"
+       id="path2307" />
+    <text
+       xml:space="preserve"
+       style="font-size:3.175px;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:none;fill-opacity:0.745098;stroke:none;stroke-width:0.258762;stroke-linejoin:bevel;stroke-dasharray:none"
+       x="-54.942215"
+       y="64.132317"
+       id="text2479"><tspan
+         id="tspan2477"
+         style="fill:none;stroke:none;stroke-width:0.258762"
+         x="-54.942215"
+         y="64.132317">7</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.118249;stroke-dasharray:none"
+       id="path2485"
+       width="23.419287"
+       height="14.587375"
+       x="123.42717"
+       y="61.306091"
+       d="m 16.345377,69.941873 h -93.67715 m 93.67715,14.587375 h -93.67715 M 16.345377,69.941873 V 84.529248 M -7.0739133,69.941873 V 84.529248 M -30.493203,69.941873 V 84.529248 M -53.912487,69.941873 V 84.529248 M -77.331773,69.941873 v 14.587375" />
+    <text
+       xml:space="preserve"
+       style="font-size:3.175px;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#000000;fill-opacity:0.745098;stroke:none;stroke-width:0.258762;stroke-linejoin:bevel;stroke-dasharray:none"
+       x="-80.916298"
+       y="-81.521439"
+       id="text2493"
+       transform="rotate(-90)"><tspan
+         id="tspan2491"
+         style="stroke-width:0.258762"
+         x="-80.916298"
+         y="-81.521439">\footnotesize blocks</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.175px;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#000000;fill-opacity:0.745098;stroke:none;stroke-width:0.258762;stroke-linejoin:bevel;stroke-dasharray:none"
+       x="-66.069031"
+       y="91.503059"
+       id="text2497"><tspan
+         id="tspan2495"
+         style="stroke-width:0.258762"
+         x="-66.069031"
+         y="91.503059">...</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.175px;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#000000;fill-opacity:0.745098;stroke:none;stroke-width:0.258762;stroke-linejoin:bevel;stroke-dasharray:none"
+       x="-41.509514"
+       y="92.252357"
+       id="text2501"><tspan
+         id="tspan2499"
+         style="stroke-width:0.258762"
+         x="-41.509514"
+         y="92.252357">7</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.175px;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#000000;fill-opacity:0.745098;stroke:none;stroke-width:0.258762;stroke-linejoin:bevel;stroke-dasharray:none"
+       x="-20.291206"
+       y="91.288742"
+       id="text2497-3"><tspan
+         id="tspan2495-6"
+         style="stroke-width:0.258762"
+         x="-20.291206"
+         y="91.288742">...</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.175px;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#000000;fill-opacity:0.745098;stroke:none;stroke-width:0.258762;stroke-linejoin:bevel;stroke-dasharray:none"
+       x="3.4319458"
+       y="92.03804"
+       id="text2538"><tspan
+         id="tspan2536"
+         style="stroke-width:0.258762"
+         x="3.4319458"
+         y="92.03804">11</tspan></text>
+    <path
+       style="fill:none;fill-opacity:0.745098;stroke:#000000;stroke-width:0.159;stroke-linejoin:bevel;stroke-dasharray:none;marker-end:url(#Arrow2)"
+       d="M -64.792683,40.687859 C -68.965946,62.160454 6.4202667,45.37361 5.0448467,67.642925"
+       id="path2544" />
+    <path
+       style="fill:none;fill-opacity:0.745098;stroke:#000000;stroke-width:0.159;stroke-linejoin:bevel;stroke-dasharray:none;marker-end:url(#Arrow2-7)"
+       d="M 5.0448467,77.235561 C -17.967113,66.064636 -32.114701,54.827662 -41.369813,68.505896"
+       id="path2544-3" />
+  </g>
+</svg>
