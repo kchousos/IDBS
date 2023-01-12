@@ -39,7 +39,7 @@
 #+SUBTITLE: Εργασίες 1 & 2
 #+AUTHOR: Κωνσταντίνος Χούσος @@latex:\\ \small{ΑΜ: 1115202000215} \and@@
 #+AUTHOR: Αναστάσιος-Φαίδων Σεϊτανίδης @@latex:\\ \small{ΑΜ: 1115202000179}@@
-#+OPTIONS: num:nil toc:nil date:nil timestamp:nil
+#+OPTIONS: num:nil toc:nil date:nil timestamp:nil todo:t tags:t
 #+STARTUP: overview
 
 * Εργασία 1
@@ -111,7 +111,11 @@
 - =int prevBlockDesc=: Ο αναγνωριστικός αριθμός του προηγούμενου block του κάδου. Αρχικοποιείται με -1 εφόσον δεν υπάρχει προηγούμενο block. Στο παράδειγμα του σχήματος [[fig-hashtable]] το =prevBlockDesc= του block 11 θα είναι ο αριθμός 7, ενώ το =prevBlockDesc= του block 7 θα είναι -1.
 - =int recsNum=: Το πλήθος εγγεγραμμένων πλειάδων στο συγκεκριμένο block.
 
-* COMMENT Σημειώσεις
+* Σημειώσεις :comment:
+
+** TODO Στην =SHT_SecondaryGetAllEntries= θα έχουμε μια δική της μεταβλητή που θα μετράει τα read blocks και θα προσθέτουμε και αυτό που επιστρέφει η =HT_GetAllEntries=.
+
+** TODO Αναφορά στο βιβλίο για τον πίνακα κατακερματισμού.
 * COMMENT Local Variables
 # Local Variables:
 # org-latex-hyperref-template: "\\hypersetup{pdfauthor={Κωνσταντίνος Χούσος, Αναστάσιος-Φαίδων Σεϊτανίδης},pdftitle={%t},pdfkeywords={%k},pdfsubject={%d},pdfcreator={%c}, pdflang={%L},colorlinks,linkcolor=blue,citecolor=red,urlcolor=blue}"
