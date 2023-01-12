@@ -75,9 +75,48 @@ int SHT_CreateSecondaryIndex(char *sfileName, int buckets, char *fileName) {
 
 SHT_info *SHT_OpenSecondaryIndex(char *indexName) {
 
+  /* Δεν χρησιμοποιείται η CALL_OR_DIE διότι η συνάρτηση σε περίπτωση λάθους
+   * πρέπει να επιστρέφει NULL, όχι int */
+
+  int file_desc;
+  BF_OpenFile(indexName, &file_desc);
+
+  /* Πρόσβαση στο block 0 */
+  BF_Block *block;
+  BF_Block_Init(&block);
+  BF_GetBlock(file_desc, 0, block);
+  void *data = BF_Block_GetData(block);
+
+  /* Πρόσβαση στο SHT_info του block 0 */
+  SHT_info *sht_info = malloc(sizeof(SHT_info));
+  memcpy(sht_info, data, sizeof(SHT_info));
+
+  /* έλεγχος για αρχείο κατακερματισμού */
+  if (!sht_info->isHT)
+    return NULL;
+
+  /* Αρχικοποίηση sht_hashtable στην μνήμη */
+  sht_info->sht_hashtable = malloc(sizeof(int) * sht_info->numBuckets);
+  for (int bucket = 0; bucket < sht_info->numBuckets; bucket++)
+    sht_info->sht_hashtable[bucket] = -1;
+
+  /* Το file_desc του info αλλάζει από την κλήση της BF_OpenFile, άρα χρειάζεται
+   * να ενημερώσουμε την τιμή στο SHT_info  */
+  sht_info->fileDesc = file_desc;
+  /* Ενημέρωση του SHT_info του block 0 */
+  memcpy(data, sht_info, sizeof(SHT_info));
+
+  BF_Block_SetDirty(block);
+
+  BF_UnpinBlock(block);
+
+  BF_Block_Destroy(&block);
+
+  return sht_info;
 }
 
 int SHT_CloseSecondaryIndex(SHT_info *sht_info) {
+
   /* Βρίσκουμε πόσα blocks έχει το αρχείο */
   int file_desc = sht_info->fileDesc;
   int blocks_num;
@@ -97,7 +136,7 @@ int SHT_CloseSecondaryIndex(SHT_info *sht_info) {
 
   /* κλείσιμο αρχείου */
   CALL_OR_DIE(BF_CloseFile(file_desc));
-  free(sht_info->hashtable);
+  free(sht_info->sht_hashtable);
   free(sht_info);
 
   return 0;
