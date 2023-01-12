@@ -16,7 +16,7 @@
     }                                                                          \
   }
 
-int SHT_Hash(char *name, long int buckets) {
+int SHT_Hash(char *name, int buckets) {
 
   /* Error handling */
   if (*name == '\0') {
