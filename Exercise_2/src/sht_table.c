@@ -16,22 +16,22 @@
     }                                                                          \
   }
 
-int hash_func(char* string) {
-  if (string == NULL) {
+int SHT_Hash(char *name, long int buckets) {
+
+  /* Error handling */
+  if (*name == '\0') {
     printf("NULL string to hash. Exiting...\n");
     return -1;
   }
 
   int temp = 0;
-  
-  if (string[1] != NULL)
 
-
-  return string[1] == NULL ? string[0] % buckets : string[0] % buckets + hash_func(string+sizeof(char));
+  while (*name != '\0') {
+    temp += *name % buckets;
+    name++;
+  }
+  return temp % buckets;
 }
-
-
-int SHT_CreateSecondaryIndex(char *sfileName, int buckets, char *fileName) {}
 
 SHT_info *SHT_OpenSecondaryIndex(char *indexName) {}
 

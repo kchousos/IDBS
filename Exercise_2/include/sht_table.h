@@ -6,7 +6,7 @@
 typedef struct {
   int fileDesc;
   int lastBlockDesc;
-  long int numBuckets;
+  int numBuckets;
   int *sht_hashtable;
   int isHT;
 } SHT_info;
@@ -16,6 +16,12 @@ typedef struct {
   int prevBlockDesc;
   int recsNum;
 } SHT_block_info;
+
+/* Η συνάρτηση SHT_Hash επιστρέφει τον κάδο του δευτερεύοντος ευρετηρίου όπου
+ * πρέπει να βάλουμε την εγγραφή με τιμή <name> στο πεδίο name. Σε περίπτωση
+ * λάθους επιστρέφει -1. */
+int SHT_Hash(char *name /* τιμή πεδίου ονόματος της εγγραφής */,
+             int buckets /* πλήθος κάδων δευτερεύοντος ευρετηρίου*/);
 
 /*Η συνάρτηση SHT_CreateSecondaryIndex χρησιμοποιείται για τη δημιουργία
 και κατάλληλη αρχικοποίηση ενός αρχείου δευτερεύοντος κατακερματισμού με
