@@ -27,7 +27,7 @@
 
 #+LATEX_HEADER: \renewcommand{\baselinestretch}{1.2}
 
-#+LATEX_HEADER: \usemintedstyle{friendly}
+#+LATEX_HEADER: \usemintedstyle{vs}
 #+LATEX_HEADER: \setminted{frame=single, framesep=2mm}
 
 #+LATEX_HEADER: \usepackage{fancyhdr}
