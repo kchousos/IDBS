@@ -12,9 +12,9 @@
       "./build/sht_main",
       "./examples/sht_main.c"
     ],
-    "directory": "/home/kchou/Ε.Κ.Π.Α./5o Εξάμηνο/Υλοποίηση Συστημάτων Βάσεων Δεδομένων/Εργασίες/Exercise_2",
-    "file": "/home/kchou/Ε.Κ.Π.Α./5o Εξάμηνο/Υλοποίηση Συστημάτων Βάσεων Δεδομένων/Εργασίες/Exercise_2/examples/sht_main.c",
-    "output": "/home/kchou/Ε.Κ.Π.Α./5o Εξάμηνο/Υλοποίηση Συστημάτων Βάσεων Δεδομένων/Εργασίες/Exercise_2/build/sht_main"
+    "directory": "/home/kchou/HDD/Έγγραφα/Ε.Κ.Π.Α./5o Εξάμηνο/Υλοποίηση Συστημάτων Βάσεων Δεδομένων/Εργασίες/Exercise 1 & 2",
+    "file": "/home/kchou/HDD/Έγγραφα/Ε.Κ.Π.Α./5o Εξάμηνο/Υλοποίηση Συστημάτων Βάσεων Δεδομένων/Εργασίες/Exercise 1 & 2/examples/sht_main.c",
+    "output": "/home/kchou/HDD/Έγγραφα/Ε.Κ.Π.Α./5o Εξάμηνο/Υλοποίηση Συστημάτων Βάσεων Δεδομένων/Εργασίες/Exercise 1 & 2/build/sht_main"
   },
   {
     "arguments": [
@@ -29,9 +29,9 @@
       "./build/sht_main",
       "./src/record.c"
     ],
-    "directory": "/home/kchou/Ε.Κ.Π.Α./5o Εξάμηνο/Υλοποίηση Συστημάτων Βάσεων Δεδομένων/Εργασίες/Exercise_2",
-    "file": "/home/kchou/Ε.Κ.Π.Α./5o Εξάμηνο/Υλοποίηση Συστημάτων Βάσεων Δεδομένων/Εργασίες/Exercise_2/src/record.c",
-    "output": "/home/kchou/Ε.Κ.Π.Α./5o Εξάμηνο/Υλοποίηση Συστημάτων Βάσεων Δεδομένων/Εργασίες/Exercise_2/build/sht_main"
+    "directory": "/home/kchou/HDD/Έγγραφα/Ε.Κ.Π.Α./5o Εξάμηνο/Υλοποίηση Συστημάτων Βάσεων Δεδομένων/Εργασίες/Exercise 1 & 2",
+    "file": "/home/kchou/HDD/Έγγραφα/Ε.Κ.Π.Α./5o Εξάμηνο/Υλοποίηση Συστημάτων Βάσεων Δεδομένων/Εργασίες/Exercise 1 & 2/src/record.c",
+    "output": "/home/kchou/HDD/Έγγραφα/Ε.Κ.Π.Α./5o Εξάμηνο/Υλοποίηση Συστημάτων Βάσεων Δεδομένων/Εργασίες/Exercise 1 & 2/build/sht_main"
   },
   {
     "arguments": [
@@ -46,9 +46,9 @@
       "./build/sht_main",
       "./src/sht_table.c"
     ],
-    "directory": "/home/kchou/Ε.Κ.Π.Α./5o Εξάμηνο/Υλοποίηση Συστημάτων Βάσεων Δεδομένων/Εργασίες/Exercise_2",
-    "file": "/home/kchou/Ε.Κ.Π.Α./5o Εξάμηνο/Υλοποίηση Συστημάτων Βάσεων Δεδομένων/Εργασίες/Exercise_2/src/sht_table.c",
-    "output": "/home/kchou/Ε.Κ.Π.Α./5o Εξάμηνο/Υλοποίηση Συστημάτων Βάσεων Δεδομένων/Εργασίες/Exercise_2/build/sht_main"
+    "directory": "/home/kchou/HDD/Έγγραφα/Ε.Κ.Π.Α./5o Εξάμηνο/Υλοποίηση Συστημάτων Βάσεων Δεδομένων/Εργασίες/Exercise 1 & 2",
+    "file": "/home/kchou/HDD/Έγγραφα/Ε.Κ.Π.Α./5o Εξάμηνο/Υλοποίηση Συστημάτων Βάσεων Δεδομένων/Εργασίες/Exercise 1 & 2/src/sht_table.c",
+    "output": "/home/kchou/HDD/Έγγραφα/Ε.Κ.Π.Α./5o Εξάμηνο/Υλοποίηση Συστημάτων Βάσεων Δεδομένων/Εργασίες/Exercise 1 & 2/build/sht_main"
   },
   {
     "arguments": [
@@ -63,8 +63,8 @@
       "./build/sht_main",
       "./src/ht_table.c"
     ],
-    "directory": "/home/kchou/Ε.Κ.Π.Α./5o Εξάμηνο/Υλοποίηση Συστημάτων Βάσεων Δεδομένων/Εργασίες/Exercise_2",
-    "file": "/home/kchou/Ε.Κ.Π.Α./5o Εξάμηνο/Υλοποίηση Συστημάτων Βάσεων Δεδομένων/Εργασίες/Exercise_2/src/ht_table.c",
-    "output": "/home/kchou/Ε.Κ.Π.Α./5o Εξάμηνο/Υλοποίηση Συστημάτων Βάσεων Δεδομένων/Εργασίες/Exercise_2/build/sht_main"
+    "directory": "/home/kchou/HDD/Έγγραφα/Ε.Κ.Π.Α./5o Εξάμηνο/Υλοποίηση Συστημάτων Βάσεων Δεδομένων/Εργασίες/Exercise 1 & 2",
+    "file": "/home/kchou/HDD/Έγγραφα/Ε.Κ.Π.Α./5o Εξάμηνο/Υλοποίηση Συστημάτων Βάσεων Δεδομένων/Εργασίες/Exercise 1 & 2/src/ht_table.c",
+    "output": "/home/kchou/HDD/Έγγραφα/Ε.Κ.Π.Α./5o Εξάμηνο/Υλοποίηση Συστημάτων Βάσεων Δεδομένων/Εργασίες/Exercise 1 & 2/build/sht_main"
   }
 ]

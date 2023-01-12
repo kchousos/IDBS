@@ -26,6 +26,7 @@ int SHT_Hash(char *name, int buckets) {
 
   for (int i = 0; i < 15; i++) {
 
+    /* name length < 15 */
 	if (name[i] == '\0')
 	  break;
 
