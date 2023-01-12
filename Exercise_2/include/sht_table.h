@@ -3,6 +3,13 @@
 #include "ht_table.h"
 #include "record.h"
 
+#define SHT_MAX_RECS (BF_BLOCK_SIZE - sizeof(SHT_block_info)) / sizeof(SHT_Record)
+
+typedef struct {
+  char *name;
+  int blockDesc;
+} SHT_Record;
+
 typedef struct {
   int fileDesc;
   int lastBlockDesc;
