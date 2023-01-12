@@ -24,8 +24,13 @@ int SHT_Hash(char *name, int buckets) {
 
   int temp = 0;
 
-  for (int i = 0; i < 15; i++)
+  for (int i = 0; i < 15; i++) {
+
+	if (name[i] == '\0')
+	  break;
+
     temp += name[i] % buckets;
+  }
 
   return temp % buckets;
 }
@@ -237,5 +242,79 @@ int SHT_SecondaryInsertEntry(SHT_info *sht_info, Record record, int block_id) {
 
 int SHT_SecondaryGetAllEntries(HT_info *ht_info, SHT_info *sht_info,
                                char *name) {
-  return 0;
+
+  /* Αρχικοποιούμε μια μεταβλητή όπου θα κρατάμε τον αριθμό των blocks που
+   * διαβάστηκαν σε -1. Αν δεν αλλάξει κατά την εκτέλεση της συνάρτησης,
+   * σημαίνει υπήρξε λάθος στην εκτέλεση και θα επιστραφεί -1. */
+  int read_blocks = -1;
+  int file_desc = sht_info->fileDesc;
+
+  /* Έυρεση του bucket στον οποίο (πιθανώς να) περιέχονται τα στοιχεία με όνομα == name */
+  int bucket = SHT_Hash(name, sht_info->numBuckets);
+
+  BF_Block *block;
+  BF_Block_Init(&block);
+
+  SHT_block_info block_info;
+
+  void *data;
+  int sht_block_info_offset = SHT_MAX_RECS * sizeof(SHT_Record);
+
+  int block_to_read = sht_info->sht_hashtable[bucket];
+
+  int blocks_that_were_read = 0;
+
+  /* Προσπέλαση των blocks του bucket */
+  while (block_to_read != -1) {
+
+    blocks_that_were_read++;
+
+    /* Για το block που διαβάζουμε κάθε φορά, βρίσκουμε το SHT_block_info,
+     * όπου είναι αποθηκευμένος ο αριθμός των εγγραφών που έχουν γίνει σε
+     * αυτό. */
+    CALL_OR_DIE(BF_GetBlock(file_desc, block_to_read, block));
+    data = BF_Block_GetData(block);
+    CALL_OR_DIE(BF_UnpinBlock(block));
+
+    memcpy(&block_info, data + sht_block_info_offset, sizeof(SHT_block_info));
+
+    SHT_Record *sht_recs = data;
+
+    /* Για κάθε εγγραφή του block, ελέγχουμε αν το name της ταυτίζεται με το
+     * δοθέν name. Αν η σύγκριση είναι αληθής τυπώνουμε την εγγραφή αυτή */
+    for (int sht_records = 0; sht_records < block_info.recsNum; sht_records++) {
+
+      if (!strcmp(sht_recs[sht_records].name, name)) {
+
+		blocks_that_were_read++;
+
+		/* Προσπέλαση block του data.db όπου βρίσκεται το record με όνομα name */
+		BF_Block *data_block;
+		BF_Block_Init(&data_block);
+
+		CALL_OR_DIE(BF_GetBlock(ht_info->fileDesc, sht_recs[sht_records].blockDesc, data_block));
+		data = BF_Block_GetData(data_block);
+		CALL_OR_DIE(BF_UnpinBlock(data_block));
+		
+		Record *recs = data;
+		HT_block_info data_block_info;
+		int block_info_offset = MAX_RECS * sizeof(Record);
+		memcpy(&data_block_info, data + block_info_offset, sizeof(HT_block_info));
+
+		for (int records = 0; records < data_block_info.recsNum; records++) {
+		  
+		  if (!(strcmp(recs[records].name, name))) {
+			printRecord(recs[records]);
+		  }
+		}
+		BF_Block_Destroy(&data_block);
+      }
+    }
+    block_to_read = block_info.prevBlockDesc;
+	read_blocks = blocks_that_were_read;
+  }
+
+  BF_Block_Destroy(&block);
+
+  return read_blocks;
 }

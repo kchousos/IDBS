@@ -116,6 +116,7 @@
 ** TODO Στην =SHT_SecondaryGetAllEntries= θα έχουμε μια δική της μεταβλητή που θα μετράει τα read blocks και θα προσθέτουμε και αυτό που επιστρέφει η =HT_GetAllEntries=.
 
 ** TODO Αναφορά στο βιβλίο για τον πίνακα κατακερματισμού.
+
 * COMMENT Local Variables
 # Local Variables:
 # org-latex-hyperref-template: "\\hypersetup{pdfauthor={Κωνσταντίνος Χούσος, Αναστάσιος-Φαίδων Σεϊτανίδης},pdftitle={%t},pdfkeywords={%k},pdfsubject={%d},pdfcreator={%c}, pdflang={%L},colorlinks,linkcolor=blue,citecolor=red,urlcolor=blue}"
