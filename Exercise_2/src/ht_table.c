@@ -173,7 +173,7 @@ int HT_InsertEntry(HT_info *ht_info, Record record) {
 
   /* Αν υπάρχει διαθέσιμος χώρος, γράψε στο πιο πρόσφατο block το record, αλλιώς
    * φτιάξε καινούργιο block στον κάδο */
-  if (space_left_in_block >= sizeof(Record) && block_info.blockDesc != 0) {
+  if (space_left_in_block >= sizeof(Record)) {
 
     /* Εγγραφή record */
     memcpy(data + recs_size, &record, sizeof(Record));

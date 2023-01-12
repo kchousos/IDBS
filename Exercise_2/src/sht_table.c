@@ -19,17 +19,14 @@
 int SHT_Hash(char *name, int buckets) {
 
   /* Error handling */
-  if (*name == '\0') {
-    printf("NULL string to hash. Exiting...\n");
+  if (name[0] == '\0')
     return -1;
-  }
 
   int temp = 0;
 
-  while (*name != '\0') {
-    temp += *name % buckets;
-    name++;
-  }
+  for (int i = 0; i < 15; i++)
+    temp += name[i] % buckets;
+
   return temp % buckets;
 }
 
@@ -144,8 +141,101 @@ int SHT_CloseSecondaryIndex(SHT_info *sht_info) {
 
 int SHT_SecondaryInsertEntry(SHT_info *sht_info, Record record, int block_id) {
 
+  /* Δημιουργία ζευγαριού νέας εγγραφής */
+  SHT_Record sht_record;
+  strcpy(sht_record.name, record.name);
+  sht_record.blockDesc = block_id;
+
+  /* Εύρεση κάδου δευτερεύοντος ευρετηρίου */
+  int bucket;
+  bucket = SHT_Hash(record.name, sht_info->numBuckets);
+  if (bucket == -1)
+    return -1;
+
+  /* Έλεγχος για την περίπτωση όπου ο κάδος δεν έχει ακόμα blocks */
+  if (sht_info->sht_hashtable[bucket] == -1) {
+
+    BF_Block *new_block;
+    BF_Block_Init(&new_block);
+    CALL_OR_DIE(BF_AllocateBlock(sht_info->fileDesc, new_block));
+
+    sht_info->lastBlockDesc++;
+    sht_info->sht_hashtable[bucket] = sht_info->lastBlockDesc;
+
+    /* Αρχικοποίηση block_info */
+    void *data = BF_Block_GetData(new_block);
+    SHT_block_info block_info;
+    block_info.blockDesc = sht_info->lastBlockDesc;
+    block_info.prevBlockDesc = -1;
+    block_info.recsNum = 0;
+    int block_info_offset = SHT_MAX_RECS * sizeof(SHT_Record);
+    memcpy(data + block_info_offset, &block_info, sizeof(SHT_block_info));
+
+    BF_Block_SetDirty(new_block);
+    CALL_OR_DIE(BF_UnpinBlock(new_block));
+    BF_Block_Destroy(&new_block);
+  }
+
+  /* Δημιουργία block */
+  BF_Block *block;
+  BF_Block_Init(&block);
+  CALL_OR_DIE(
+      BF_GetBlock(sht_info->fileDesc, sht_info->sht_hashtable[bucket], block));
+
+  /* Πρόσβαση στο block_info του τελευταίου block του κάδου */
+  SHT_block_info block_info;
+  void *data = BF_Block_GetData(block);
+  memcpy(&block_info, data + SHT_MAX_RECS * sizeof(SHT_Record),
+         sizeof(SHT_block_info));
+  CALL_OR_DIE(BF_UnpinBlock(block));
+
+  /* Έλεγχος διαθέσιμου χώρου */
+  int recs_size = block_info.recsNum * sizeof(SHT_Record);
+  int space_left_in_block =
+      BF_BLOCK_SIZE - (recs_size + sizeof(SHT_block_info));
+
+  /* Αν υπάρχει διαθέσιμος χώρος, γράψε στο πιο πρόσφατο block το sht_record,
+   * αλλιώς φτιάξε καινούργιο block στον κάδο */
+  if (space_left_in_block >= sizeof(SHT_Record)) {
+
+    /* Εγγραφή sht_record */
+    memcpy(data + recs_size, &sht_record, sizeof(SHT_Record));
+
+    /* Ενημέρωση block_info */
+    block_info.recsNum++;
+    memcpy(data + SHT_MAX_RECS * sizeof(SHT_Record), &block_info,
+           sizeof(SHT_block_info));
+  } else {
+
+    CALL_OR_DIE(BF_AllocateBlock(sht_info->fileDesc, block));
+
+    /* Εισαγωγή sht_record */
+    data = BF_Block_GetData(block);
+    memcpy(data, &sht_record, sizeof(SHT_Record));
+
+    /* Ενημέρωση block_info καινούργιου block */
+    block_info.recsNum = 1;
+    block_info.blockDesc = sht_info->lastBlockDesc + 1;
+    block_info.prevBlockDesc = sht_info->sht_hashtable[bucket];
+
+    /* Ενημέρωση sht_info */
+    sht_info->lastBlockDesc = block_info.blockDesc;
+    sht_info->sht_hashtable[bucket] = block_info.blockDesc;
+
+    memcpy(data + MAX_RECS * sizeof(SHT_Record), &block_info,
+           sizeof(SHT_block_info));
+
+    CALL_OR_DIE(BF_UnpinBlock(block));
+  }
+
+  BF_Block_SetDirty(block);
+  CALL_OR_DIE(BF_UnpinBlock(block));
+  BF_Block_Destroy(&block);
+
+  return 0;
 }
 
-int SHT_SecondaryGetAllEntries(HT_info *ht_info, SHT_info *sht_info, char *name) {
-
+int SHT_SecondaryGetAllEntries(HT_info *ht_info, SHT_info *sht_info,
+                               char *name) {
+  return 0;
 }

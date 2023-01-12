@@ -6,7 +6,7 @@
 #define SHT_MAX_RECS (BF_BLOCK_SIZE - sizeof(SHT_block_info)) / sizeof(SHT_Record)
 
 typedef struct {
-  char *name;
+  char name[15];
   int blockDesc;
 } SHT_Record;
 
