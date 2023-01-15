@@ -27,7 +27,8 @@ typedef struct {
   int lastBlockDesc;
   long int numBuckets;
   int *hashtable;
-  int filetype;
+  /* filetype = "hashtable" */
+  char filetype[10];
 } HT_info;
 
 /*Η συνάρτηση HT_CreateFile χρησιμοποιείται για τη δημιουργία

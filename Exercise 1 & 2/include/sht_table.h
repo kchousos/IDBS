@@ -15,7 +15,8 @@ typedef struct {
   int lastBlockDesc;
   int numBuckets;
   int *sht_hashtable;
-  int filetype;
+  /* filetype = "sec-index" */
+  char filetype[10];
 } SHT_info;
 
 typedef struct {

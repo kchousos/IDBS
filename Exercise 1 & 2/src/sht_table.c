@@ -61,7 +61,7 @@ int SHT_CreateSecondaryIndex(char *sfileName, int buckets, char *fileName) {
   SHT_info info;
   info.fileDesc = file_desc;
   info.numBuckets = buckets;
-  info.filetype = 3;
+  strcat(info.filetype, "sec-index");
   info.lastBlockDesc = 0;
   memcpy(data, &info, sizeof(SHT_info));
 
@@ -95,7 +95,7 @@ SHT_info *SHT_OpenSecondaryIndex(char *indexName) {
   memcpy(sht_info, data, sizeof(SHT_info));
 
   /* έλεγχος για αρχείο δευτερεύοντος ευρετηρίου */
-  if (sht_info->filetype != 3)
+  if (!strcmp(sht_info->filetype, "sec-index"))
     return NULL;
 
   /* Αρχικοποίηση sht_hashtable στην μνήμη */

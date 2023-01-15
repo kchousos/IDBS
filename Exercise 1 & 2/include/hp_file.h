@@ -18,7 +18,8 @@ typedef struct {
 typedef struct {
   int fileDesc;
   int lastBlockDesc;
-  int filetype;
+  /* filetype = "heap" */
+  char filetype[5];
 } HP_info;
 
 /*Η συνάρτηση HP_CreateFile χρησιμοποιείται για τη δημιουργία και

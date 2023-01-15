@@ -41,7 +41,7 @@ int HP_CreateFile(char *fileName) {
   HP_info info;
   info.fileDesc = file_desc;
   info.lastBlockDesc = 0;
-  info.filetype = 1;
+  strcat(info.filetype, "heap");
   memcpy(data, &info, sizeof(info));
 
   BF_Block_SetDirty(block);
@@ -74,7 +74,7 @@ HP_info *HP_OpenFile(char *fileName) {
   memcpy(hp_info, data, sizeof(HP_info));
 
   /* έλεγχος για αρχείο κατακερματισμού */
-  if (hp_info->filetype != 1)
+  if (!strcmp(hp_info->filetype, "c"))
     return NULL;
 
   /* Το file_desc του info αλλάζει από την κλήση της BF_OpenFile, άρα χρειάζεται

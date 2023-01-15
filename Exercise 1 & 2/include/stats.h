@@ -1,8 +1,5 @@
 #ifndef STATS_H
 #define STATS_H
-#include "bf.h"
-#include <record.h>
-#include <string.h>
 
 int STATS_GetFiletype(char *filename);
 
