@@ -15,7 +15,7 @@ typedef struct {
   int lastBlockDesc;
   int numBuckets;
   int *sht_hashtable;
-  int isHT;
+  int filetype;
 } SHT_info;
 
 typedef struct {

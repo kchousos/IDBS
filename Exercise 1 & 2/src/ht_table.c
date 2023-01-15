@@ -40,7 +40,7 @@ int HT_CreateFile(char *fileName, int buckets) {
   HT_info info;
   info.fileDesc = file_desc;
   info.numBuckets = buckets;
-  info.isHT = 1;
+  info.filetype = 2;
   info.lastBlockDesc = 0;
   memcpy(data, &info, sizeof(info));
 
@@ -74,7 +74,7 @@ HT_info *HT_OpenFile(char *fileName) {
   memcpy(ht_info, data, sizeof(HT_info));
 
   /* έλεγχος για αρχείο κατακερματισμού */
-  if (!ht_info->isHT)
+  if (ht_info->filetype != 2)
     return NULL;
 
   /* Αρχικοποίηση hashtable στην μνήμη */

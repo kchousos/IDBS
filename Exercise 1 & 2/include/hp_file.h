@@ -2,9 +2,10 @@
 #define HP_FILE_H
 #include "bf.h"
 #include <record.h>
+#include <string.h>
 
 #define HP_ERROR -1
-#define MAX_RECS (BF_BLOCK_SIZE - sizeof(HP_block_info))/sizeof(Record)
+#define MAX_RECS (BF_BLOCK_SIZE - sizeof(HP_block_info)) / sizeof(Record)
 
 /* Η δομή HP_block_info κρατάει μεταδεδομένα που σχετίζονται με το block. */
 typedef struct {
@@ -17,7 +18,7 @@ typedef struct {
 typedef struct {
   int fileDesc;
   int lastBlockDesc;
-  int isHT;
+  int filetype;
 } HP_info;
 
 /*Η συνάρτηση HP_CreateFile χρησιμοποιείται για τη δημιουργία και

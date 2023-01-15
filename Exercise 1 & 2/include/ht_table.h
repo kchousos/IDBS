@@ -2,6 +2,7 @@
 #define HT_TABLE_H
 #include "bf.h"
 #include <record.h>
+#include <string.h>
 
 #define MAX_RECS (BF_BLOCK_SIZE - sizeof(HT_block_info)) / sizeof(Record)
 
@@ -26,7 +27,7 @@ typedef struct {
   int lastBlockDesc;
   long int numBuckets;
   int *hashtable;
-  int isHT;
+  int filetype;
 } HT_info;
 
 /*Η συνάρτηση HT_CreateFile χρησιμοποιείται για τη δημιουργία
