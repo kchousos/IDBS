@@ -37,7 +37,8 @@
 #+LATEX_HEADER: \rhead{Κ. Χούσος \& Α. Σεϊτανίδης}
 
 #+LATEX_HEADER: \usepackage{titlesec}
-#+LATEX_HEADER: \titleformat{\section}{\large \center \bf \uppercase}{\thesection}{0.5em}{}{}
+#+LATEX_HEADER: \titleformat{\section}{\Large \center \bf \uppercase}{\thesection}{0.5em}{}{}
+#+LATEX_HEADER: \titleformat{\subsection}{\large \center \bf}{\thesection}{0.5em}{}{}
 :END:
 #+TITLE: Υλοποίηση Συστημάτων Βάσεων Δεδομένων
 #+SUBTITLE: Εργασίες 1 & 2
@@ -67,7 +68,7 @@
 Ένα αρχείο σωρού χαρακτηρίζεται από τα εξής στοιχεία:
 - =int fileDesc=: Ο αναγνωριστικός αριθμός ανοίγματος αρχείου από το επίπεδο block.
 - =int lastBlockDesc=: Ο αναγνωριστικός αριθμός του τελευταίου σε αριθμό block του αρχείου σωρού.
-- =int filetype=: Ένα flag που δηλώνει τον τύπο του αρχείου. Στην περίπτωση αρχείου σωρού έχει τιμή 1.
+- =char filetype[5]=: Ένα string που δηλώνει τον τύπο αρχείου. Μπορεί να είναι είτε "heap", είτε "hashtable" είτε "sec-index". Για αρχεία σωρού παίρνει την τιμή "heap".
 
 **** Δομή =HP_block_info=
 
@@ -99,7 +100,7 @@
 Ένα αρχείο κατακερματισμού χαρακτηρίζεται από τα εξής στοιχεία:
 - =int fileDesc=: Ο αναγνωριστικός αριθμός ανοίγματος αρχείου από το επίπεδο block.
 - =int lastBlockDesc=: Ο αναγνωριστικός αριθμός του τελευταίου σε αριθμό block του αρχείου κατακερματισμού.
-- =int filetype=: Ένα flag που δηλώνει τον τύπο του αρχείου. Στην περίπτωση αρχείου κατακερματισμού έχει τιμή 2.
+- =char filetype[10]=: Ένα string που δηλώνει τον τύπο αρχείου. Μπορεί να είναι είτε "heap", είτε "hashtable" είτε "sec-index". Για αρχεία κατακερματισμού παίρνει την τιμή "hashtable". 
 - =long int numBuckets=: Το πλήθος των κάδων που θα έχει το αρχείο κατακερματισμού.
 - =int *hashtable=: Ένας πίνακας μεταβλητού μεγέθους σε int. Το hashtable του αρχείου κατακερματισμού αναπαριστάται ως εξής: Η κάθε θέση του πίνακα hashtable αναπαριστά έναν κάδο. Δηλαδή για παράδειγμα, το =hashtable[2]= δηλώνει τον κάδο 2. Το περιεχόμενο της κάθε θέσης όμως είναι ένας int, ο οποίος ταυτίζεται με το =blockDesc= του block του κάδου που προστέθηκε πιο πρόσφατα σε αυτόν. Ένα παράδειγμα της μοντελοποίησης αυτής υπάρχει στο σχήμα@@latex:~@@[[fig-hashtable]].
 
@@ -146,7 +147,7 @@
 Ένα αρχείο δευτερεύοντος ευρετηρίου χαρακτηρίζεται από τα εξής στοιχεία:
 - =int fileDesc=: Ο αναγνωριστικός αριθμός ανοίγματος αρχείου από το επίπεδο block.
 - =int lastBlockDesc=: Ο αναγνωριστικός αριθμός του τελευταίου σε αριθμό block του αρχείου δευτερεύοντος ευρετηρίου.
-- =int filetype=: Ένα flag που δηλώνει τον τύπο του αρχείου. Στην περίπτωση αρχείου δευτερεύοντος ευρετηρίου έχει τιμή 3.
+- =char filetype[10]=:  Ένα string που δηλώνει τον τύπο αρχείου. Μπορεί να είναι είτε "heap", είτε "hashtable" είτε "sec-index". Για αρχεία δευτερεύοντος ευρετηρίου παίρνει την τιμή "sec-index".
 - =long int numBuckets=: Το πλήθος των κάδων που θα έχει το αρχείο δευτερεύοντος ευρετηρίου.
 - =int *sht_hashtable=: Ένας πίνακας μεταβλητού μεγέθους σε int, όμοιος με τον πίνακα =hashtable= του αρχείου κατακερματισμού.
   
@@ -173,7 +174,27 @@
 #+caption: Υλοποίηση συνάρτησης =SHT_Hash=.
 #+name: sht_hash
 #+attr_latex: :width 12cm :placement [H]
-#+transclude: [[file:Exercise 1 & 2/src/sht_table.c]] :lines 19-37 :src C
+#+begin_src C
+int SHT_Hash(char *name, int buckets) {
+
+  /* Error handling */
+  if (name[0] == '\0')
+    return -1;
+
+  int temp = 0;
+
+  for (int i = 0; i < 15; i++) {
+
+    /* name length < 15 */
+    if (name[i] == '\0')
+      break;
+
+    temp += name[i] % buckets;
+  }
+
+  return temp % buckets;
+}
+#+end_src
 
 * Αναφορές :ignore:
 
