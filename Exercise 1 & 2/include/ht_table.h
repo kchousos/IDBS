@@ -4,7 +4,7 @@
 #include <record.h>
 #include <string.h>
 
-#define MAX_RECS (BF_BLOCK_SIZE - sizeof(HT_block_info)) / sizeof(Record)
+#define HT_MAX_RECS (BF_BLOCK_SIZE - sizeof(HT_block_info)) / sizeof(Record)
 
 /* Η δομή HT_block_info κρατάει μεταδεδομένα που σχετίζονται με το block. Ο
  * prevBlockDesc χαρακτηρίζει το προηγούμενο block του εκάστοτε κάδου.

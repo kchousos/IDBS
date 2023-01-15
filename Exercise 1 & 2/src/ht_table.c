@@ -31,7 +31,7 @@ int HT_CreateFile(char *fileName, int buckets) {
   /* Αρχικοποίηση block_info. Πρόκειται για το πρώτο block, άρα το block 0 το
    * οποίο έχει 0 records. Επίσης, εφόσον είναι το μόνο block αρχικά, δεν
    * υπάρχει επόμενο block */
-  int block_info_offset = MAX_RECS * sizeof(Record);
+  int block_info_offset = HT_MAX_RECS * sizeof(Record);
   HT_block_info block_info;
   block_info.blockDesc = 0;
   block_info.prevBlockDesc = -1;
@@ -40,7 +40,7 @@ int HT_CreateFile(char *fileName, int buckets) {
   HT_info info;
   info.fileDesc = file_desc;
   info.numBuckets = buckets;
-  strcat(info.filetype, "hashtable");
+  strcpy(info.filetype, "hashtable");
   info.lastBlockDesc = 0;
   memcpy(data, &info, sizeof(info));
 
@@ -74,7 +74,7 @@ HT_info *HT_OpenFile(char *fileName) {
   memcpy(ht_info, data, sizeof(HT_info));
 
   /* έλεγχος για αρχείο κατακερματισμού */
-  if (!strcmp(ht_info->filetype, "hashtable"))
+  if (strcmp(ht_info->filetype, "hashtable"))
     return NULL;
 
   /* Αρχικοποίηση hashtable στην μνήμη */
@@ -147,7 +147,7 @@ int HT_InsertEntry(HT_info *ht_info, Record record) {
     block_info.blockDesc = ht_info->lastBlockDesc;
     block_info.prevBlockDesc = -1;
     block_info.recsNum = 0;
-    int block_info_offset = MAX_RECS * sizeof(Record);
+    int block_info_offset = HT_MAX_RECS * sizeof(Record);
     memcpy(data + block_info_offset, &block_info, sizeof(block_info));
 
     BF_Block_SetDirty(new_block);
@@ -164,7 +164,7 @@ int HT_InsertEntry(HT_info *ht_info, Record record) {
   /* Πρόσβαση στο block_info του τελευταίου block του κάδου */
   HT_block_info block_info;
   void *data = BF_Block_GetData(block);
-  memcpy(&block_info, data + MAX_RECS * sizeof(Record), sizeof(HT_block_info));
+  memcpy(&block_info, data + HT_MAX_RECS * sizeof(Record), sizeof(HT_block_info));
   CALL_OR_DIE(BF_UnpinBlock(block));
 
   /* Έλεγχος διαθέσιμου χώρου */
@@ -180,7 +180,7 @@ int HT_InsertEntry(HT_info *ht_info, Record record) {
 
     /* Ενημέρωση block_info */
     block_info.recsNum++;
-    memcpy(data + MAX_RECS * sizeof(Record), &block_info,
+    memcpy(data + HT_MAX_RECS * sizeof(Record), &block_info,
            sizeof(HT_block_info));
 
     blockId = block_info.blockDesc;
@@ -201,7 +201,7 @@ int HT_InsertEntry(HT_info *ht_info, Record record) {
     ht_info->lastBlockDesc = block_info.blockDesc;
     ht_info->hashtable[bucket] = block_info.blockDesc;
 
-    memcpy(data + MAX_RECS * sizeof(Record), &block_info,
+    memcpy(data + HT_MAX_RECS * sizeof(Record), &block_info,
            sizeof(HT_block_info));
 
     blockId = block_info.blockDesc;
@@ -233,7 +233,7 @@ int HT_GetAllEntries(HT_info *ht_info, void *value) {
   HT_block_info block_info;
 
   void *data;
-  int block_info_offset = MAX_RECS * sizeof(Record);
+  int block_info_offset = HT_MAX_RECS * sizeof(Record);
 
   int block_to_read = ht_info->hashtable[bucket];
 

@@ -61,7 +61,7 @@ int SHT_CreateSecondaryIndex(char *sfileName, int buckets, char *fileName) {
   SHT_info info;
   info.fileDesc = file_desc;
   info.numBuckets = buckets;
-  strcat(info.filetype, "sec-index");
+  strcpy(info.filetype, "sec-index");
   info.lastBlockDesc = 0;
   memcpy(data, &info, sizeof(SHT_info));
 
@@ -95,7 +95,7 @@ SHT_info *SHT_OpenSecondaryIndex(char *indexName) {
   memcpy(sht_info, data, sizeof(SHT_info));
 
   /* έλεγχος για αρχείο δευτερεύοντος ευρετηρίου */
-  if (!strcmp(sht_info->filetype, "sec-index"))
+  if (strcmp(sht_info->filetype, "sec-index"))
     return NULL;
 
   /* Αρχικοποίηση sht_hashtable στην μνήμη */
@@ -228,7 +228,7 @@ int SHT_SecondaryInsertEntry(SHT_info *sht_info, Record record, int block_id) {
     sht_info->lastBlockDesc = block_info.blockDesc;
     sht_info->sht_hashtable[bucket] = block_info.blockDesc;
 
-    memcpy(data + MAX_RECS * sizeof(SHT_Record), &block_info,
+    memcpy(data + HT_MAX_RECS * sizeof(SHT_Record), &block_info,
            sizeof(SHT_block_info));
 
     CALL_OR_DIE(BF_UnpinBlock(block));
@@ -299,7 +299,7 @@ int SHT_SecondaryGetAllEntries(HT_info *ht_info, SHT_info *sht_info,
 		
 		Record *recs = data;
 		HT_block_info data_block_info;
-		int block_info_offset = MAX_RECS * sizeof(Record);
+		int block_info_offset = HT_MAX_RECS * sizeof(Record);
 		memcpy(&data_block_info, data + block_info_offset, sizeof(HT_block_info));
 
 		for (int records = 0; records < data_block_info.recsNum; records++) {

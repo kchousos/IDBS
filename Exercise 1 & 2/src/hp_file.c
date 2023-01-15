@@ -31,7 +31,7 @@ int HP_CreateFile(char *fileName) {
   /* Αρχικοποίηση block_info. Πρόκειται για το πρώτο block, άρα το block 0 το
    * οποίο έχει 0 records. Επίσης, εφόσον είναι το μόνο block αρχικά, δεν
    * υπάρχει επόμενο block */
-  int block_info_offset = MAX_RECS * sizeof(Record);
+  int block_info_offset = HP_MAX_RECS * sizeof(Record);
   HP_block_info block_info;
   block_info.blockDesc = 0;
   block_info.recsNum = 0;
@@ -41,7 +41,7 @@ int HP_CreateFile(char *fileName) {
   HP_info info;
   info.fileDesc = file_desc;
   info.lastBlockDesc = 0;
-  strcat(info.filetype, "heap");
+  strcpy(info.filetype, "heap");
   memcpy(data, &info, sizeof(info));
 
   BF_Block_SetDirty(block);
@@ -73,8 +73,8 @@ HP_info *HP_OpenFile(char *fileName) {
   HP_info *hp_info = malloc(sizeof(HP_info));
   memcpy(hp_info, data, sizeof(HP_info));
 
-  /* έλεγχος για αρχείο κατακερματισμού */
-  if (!strcmp(hp_info->filetype, "c"))
+  /* έλεγχος για αρχείο σωρού */
+  if (strcmp(hp_info->filetype, "heap"))
     return NULL;
 
   /* Το file_desc του info αλλάζει από την κλήση της BF_OpenFile, άρα χρειάζεται
@@ -130,7 +130,7 @@ int HP_InsertEntry(HP_info *hp_info, Record record) {
   /* Πρόσβαση στο block_info του τελευταίου block */
   HP_block_info block_info;
   void *data = BF_Block_GetData(block);
-  memcpy(&block_info, data + MAX_RECS * sizeof(Record), sizeof(HP_block_info));
+  memcpy(&block_info, data + HP_MAX_RECS * sizeof(Record), sizeof(HP_block_info));
   CALL_BF(BF_UnpinBlock(block));
 
   /* Έλεγχος διαθέσιμου χώρου */
@@ -146,7 +146,7 @@ int HP_InsertEntry(HP_info *hp_info, Record record) {
 
     /* Ενημέρωση block_info */
     block_info.recsNum++;
-    memcpy(data + MAX_RECS * sizeof(Record), &block_info,
+    memcpy(data + HP_MAX_RECS * sizeof(Record), &block_info,
            sizeof(HP_block_info));
 
     blockId = block_info.blockDesc;
@@ -163,7 +163,7 @@ int HP_InsertEntry(HP_info *hp_info, Record record) {
     block_info.blockDesc = hp_info->lastBlockDesc + 1;
     block_info.nextBlock = block_info.blockDesc + 1;
 
-    memcpy(data + MAX_RECS * sizeof(Record), &block_info,
+    memcpy(data + HP_MAX_RECS * sizeof(Record), &block_info,
            sizeof(HP_block_info));
 
     /* Ενημέρωση hp_info */
@@ -200,7 +200,7 @@ int HP_GetAllEntries(HP_info *hp_info, int value) {
   HP_block_info block_info;
 
   void *data;
-  int block_info_offset = MAX_RECS * sizeof(Record);
+  int block_info_offset = HP_MAX_RECS * sizeof(Record);
 
   /* Προσπέλαση των blocks */
   for (int block_number = 1; block_number < blocks_num; block_number++) {
