@@ -261,6 +261,10 @@ int STATS_MaxRecordsNum(char *filename, void *info, int filetype) {
   return max_records;
 }
 
+int STATS_MeanBlocksNum(char *filename, void *info, int filetype) {
+  
+}
+
 int HashStatistics(char *filename, void *info) {
 
   int filetype = STATS_GetFiletype(filename, info);
@@ -296,10 +300,8 @@ int HashStatistics(char *filename, void *info) {
   printf("Μέσο πλήθος εγγραφών κάθε bucket = %d\n",
          (max_num_of_records + min_num_of_records) / 2);
 
-  /* int max_num_of_blocks = STATS_MaxBlocksNum(filename,info, filetype);
-  int min_num_of_blocks = STATS_MinBlocksNum(filename,info, filetype);
-  printf("Μέσος αριθμός blocks κάθε bucket = %d\n",
-         (max_num_of_blocks + min_num_of_blocks) / 2); */
+  int mean_num_of_blocks = STATS_MeanBlocksNum(filename,info, filetype);
+  printf("Μέσος αριθμός blocks κάθε bucket = %d\n", mean_num_of_blocks);
 
   /* if (STATS_PrintOverflowStats(filename, info, filetype))
     return -1; */

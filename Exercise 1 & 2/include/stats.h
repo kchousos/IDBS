@@ -9,9 +9,7 @@ int STATS_MinRecordsNum(char *filename, void *info, int filetype);
 
 int STATS_MaxRecordsNum(char *filename, void *info, int filetype);
 
-int STATS_MinBlocksNum(char *filename, void *info, int filetype);
-
-int STATS_MaxBlocksNum(char *filename, void *info, int filetype);
+int STATS_MeanBlocksNum(char *filename, void *info, int filetype);
 
 int STATS_PrintOverflowStats(char *filename, void *info, int filetype);
 
