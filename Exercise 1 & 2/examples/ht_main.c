@@ -37,7 +37,7 @@ int main() {
   int id = rand() % RECORDS_NUM;
   HT_GetAllEntries(info, &id);
 
-  HashStatistics(FILE_NAME, info);
+  HashStatistics(info);
 
   HT_CloseFile(info);
   BF_Close();

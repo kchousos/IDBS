@@ -47,7 +47,7 @@ int main() {
   printf("RUN PrintAllEntries for name %s\n", searchName);
   SHT_SecondaryGetAllEntries(info, index_info, searchName);
 
-  HashStatistics(INDEX_NAME, index_info);
+  HashStatistics(index_info);
 
   // Κλείνουμε το αρχείο κατακερματισμού και το δευτερεύον ευρετήριο
   SHT_CloseSecondaryIndex(index_info);
