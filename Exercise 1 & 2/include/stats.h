@@ -3,13 +3,17 @@
 
 int STATS_GetFiletype(char *filename, void *info);
 
-int STATS_NumOfBlocks(char *filename, int filetype);
+int STATS_NumberOfBlocks(char *filename, void *info, int filetype);
 
-int STATS_RecordsNum(char *filename, int filetype, int max_min);
+int STATS_MinRecordsNum(char *filename, void *info, int filetype);
 
-int STATS_BlocksNum(char *filename, int filetype, int max_min);
+int STATS_MaxRecordsNum(char *filename, void *info, int filetype);
 
-int STATS_PrintOverflowStats(char *filename, int filetype);
+int STATS_MinBlocksNum(char *filename, void *info, int filetype);
+
+int STATS_MaxBlocksNum(char *filename, void *info, int filetype);
+
+int STATS_PrintOverflowStats(char *filename, void *info, int filetype);
 
 int HashStatistics(char *filename, void *info);
 
