@@ -27,11 +27,11 @@ int STATS_GetFiletype(char *filename, void *info) {
   HT_info *ht_info = (HT_info *)info;
   SHT_info *sht_info = (SHT_info *)info;
 
-  if (!strcmp(hp_info->filetype, "heap"))
+  if (strcmp(hp_info->filetype, "heap") == 0)
     filetype = 1;
-  else if (!strcmp(ht_info->filetype, "hashtable"))
+  else if (strcmp(ht_info->filetype, "hashtable") == 0)
     filetype = 2;
-  else if (!strcmp(sht_info->filetype, "sec-index"))
+  else if (strcmp(sht_info->filetype, "sec-index") == 0)
     filetype = 3;
 
   return filetype;
@@ -91,6 +91,7 @@ int STATS_MinRecordsNum(char *filename, void *info, int filetype) {
 
         memcpy(&block_info, data + block_info_offset, sizeof(HT_block_info));
 
+        block_to_read = block_info.prevBlockDesc;
         bucket_records += block_info.recsNum;
       }
 
@@ -124,7 +125,7 @@ int STATS_MinRecordsNum(char *filename, void *info, int filetype) {
       /* Προσπέλαση των blocks του bucket */
       while (block_to_read != -1) {
 
-        /* Για το block που διαβάζουμε κάθε φορά, βρίσκουμε το HT_block_info,
+        /* Για το block που διαβάζουμε κάθε φορά, βρίσκουμε το SHT_block_info,
          * όπου είναι αποθηκευμένος ο αριθμός των εγγραφών που έχουν γίνει σε
          * αυτό. */
         CALL_OR_DIE(BF_GetBlock(local_info->fileDesc, block_to_read, block));
@@ -133,6 +134,7 @@ int STATS_MinRecordsNum(char *filename, void *info, int filetype) {
 
         memcpy(&block_info, data + block_info_offset, sizeof(SHT_block_info));
 
+        block_to_read = block_info.prevBlockDesc;
         bucket_records += block_info.recsNum;
       }
 
@@ -185,6 +187,7 @@ int STATS_MaxRecordsNum(char *filename, void *info, int filetype) {
 
         memcpy(&block_info, data + block_info_offset, sizeof(HT_block_info));
 
+        block_to_read = block_info.prevBlockDesc;
         bucket_records += block_info.recsNum;
       }
 
@@ -228,6 +231,7 @@ int STATS_MaxRecordsNum(char *filename, void *info, int filetype) {
 
         memcpy(&block_info, data + block_info_offset, sizeof(SHT_block_info));
 
+        block_to_read = block_info.prevBlockDesc;
         bucket_records += block_info.recsNum;
       }
 
