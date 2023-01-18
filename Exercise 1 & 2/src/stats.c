@@ -70,8 +70,12 @@ int STATS_MinRecordsNum(char *filename, void *info, int filetype) {
       /* Δημιουργία block */
       BF_Block *block;
       BF_Block_Init(&block);
-      CALL_OR_DIE(BF_GetBlock(local_info->fileDesc,
+      if (local_info->hashtable[bucket] != -1) {
+        CALL_OR_DIE(BF_GetBlock(local_info->fileDesc,
                               local_info->hashtable[bucket], block));
+      }else {
+        continue;
+      }
 
       HT_block_info block_info;
 
@@ -113,8 +117,12 @@ int STATS_MinRecordsNum(char *filename, void *info, int filetype) {
       /* Δημιουργία block */
       BF_Block *block;
       BF_Block_Init(&block);
-      CALL_OR_DIE(BF_GetBlock(local_info->fileDesc,
+      if (local_info->sht_hashtable[bucket] != -1) {
+        CALL_OR_DIE(BF_GetBlock(local_info->fileDesc,
                               local_info->sht_hashtable[bucket], block));
+      }else {
+        continue;
+      }
 
       SHT_block_info block_info;
 
@@ -166,8 +174,12 @@ int STATS_MaxRecordsNum(char *filename, void *info, int filetype) {
       /* Δημιουργία block */
       BF_Block *block;
       BF_Block_Init(&block);
-      CALL_OR_DIE(BF_GetBlock(local_info->fileDesc,
+      if (local_info->hashtable[bucket] != -1) {
+        CALL_OR_DIE(BF_GetBlock(local_info->fileDesc,
                               local_info->hashtable[bucket], block));
+      }else {
+        continue;
+      }
 
       HT_block_info block_info;
 
@@ -210,8 +222,12 @@ int STATS_MaxRecordsNum(char *filename, void *info, int filetype) {
       /* Δημιουργία block */
       BF_Block *block;
       BF_Block_Init(&block);
-      CALL_OR_DIE(BF_GetBlock(local_info->fileDesc,
+      if (local_info->sht_hashtable[bucket] != -1) {
+        CALL_OR_DIE(BF_GetBlock(local_info->fileDesc,
                               local_info->sht_hashtable[bucket], block));
+      }else {
+        continue;
+      }
 
       SHT_block_info block_info;
 
