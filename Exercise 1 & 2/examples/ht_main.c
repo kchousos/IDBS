@@ -4,6 +4,7 @@
 #include <time.h>
 #include "bf.h"
 #include "ht_table.h"
+#include "stats.h"
 
 #define RECORDS_NUM 200 // you can change it if you want
 #define FILE_NAME "data.db"
@@ -35,6 +36,8 @@ int main() {
   printf("RUN PrintAllEntries\n");
   int id = rand() % RECORDS_NUM;
   HT_GetAllEntries(info, &id);
+
+  HashStatistics(FILE_NAME, info);
 
   HT_CloseFile(info);
   BF_Close();

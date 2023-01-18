@@ -37,7 +37,22 @@ int STATS_GetFiletype(char *filename, void *info) {
   return filetype;
 }
 
-int STATS_NumberOfBlocks(char *filename, void *info, int filetype) {}
+int STATS_NumberOfBlocks(char *filename, void *info, int filetype) {
+  int blocks_num = 0;
+
+  if (filetype == 1) {
+    HP_info *local_info = (HP_info* ) info;
+    CALL_OR_DIE(BF_GetBlockCounter(local_info->fileDesc, &blocks_num));
+  } else if (filetype == 2) {
+    HT_info *local_info = (HT_info* ) info;
+    CALL_OR_DIE(BF_GetBlockCounter(local_info->fileDesc, &blocks_num));
+  } else if (filetype == 3) {
+    SHT_info *local_info = (SHT_info* ) info;
+    CALL_OR_DIE(BF_GetBlockCounter(local_info->fileDesc, &blocks_num));
+  }
+  
+  return blocks_num;
+}
 
 int STATS_MinRecordsNum(char *filename, void *info, int filetype) {
 
@@ -237,16 +252,18 @@ int HashStatistics(char *filename, void *info) {
     return -1;
 
   case 1:
-    printf("====== Αρχείο Σωρού ======\n\n");
+    printf("====== Αρχείο Σωρού ======\n");
     printf("Πλήθος από blocks = %d\n",
            STATS_NumberOfBlocks(filename, info, filetype));
     return 0;
 
   case 2:
-    printf("====== Αρχείο Κατακερματισμού ======\n\n");
+    printf("====== Αρχείο Κατακερματισμού ======\n");
+    break;
 
   case 3:
-    printf("====== Αρχείο Δευτερεύοντος Ευρετηρίου ======\n\n");
+    printf("====== Αρχείο Δευτερεύοντος Ευρετηρίου ======\n");
+    break;
   }
 
   printf("Πλήθος από blocks = %d\n",
@@ -259,13 +276,13 @@ int HashStatistics(char *filename, void *info) {
   printf("Μέσο πλήθος εγγραφών κάθε bucket = %d\n",
          (max_num_of_records + min_num_of_records) / 2);
 
-  int max_num_of_blocks = STATS_MaxBlocksNum(filename,info, filetype);
+  /* int max_num_of_blocks = STATS_MaxBlocksNum(filename,info, filetype);
   int min_num_of_blocks = STATS_MinBlocksNum(filename,info, filetype);
   printf("Μέσος αριθμός blocks κάθε bucket = %d\n",
-         (max_num_of_blocks + min_num_of_blocks) / 2);
+         (max_num_of_blocks + min_num_of_blocks) / 2); */
 
-  if (STATS_PrintOverflowStats(filename, info, filetype))
-    return -1;
+  /* if (STATS_PrintOverflowStats(filename, info, filetype))
+    return -1; */
 
   return 0;
 }

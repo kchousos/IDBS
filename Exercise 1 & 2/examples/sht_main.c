@@ -1,6 +1,7 @@
 #include "bf.h"
 #include "ht_table.h"
 #include "sht_table.h"
+#include "stats.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -45,6 +46,8 @@ int main() {
   // Τυπώνουμε όλες τις εγγραφές με όνομα searchName
   printf("RUN PrintAllEntries for name %s\n", searchName);
   SHT_SecondaryGetAllEntries(info, index_info, searchName);
+
+  HashStatistics(FILE_NAME, info);
 
   // Κλείνουμε το αρχείο κατακερματισμού και το δευτερεύον ευρετήριο
   SHT_CloseSecondaryIndex(index_info);
