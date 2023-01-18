@@ -16,6 +16,3 @@ sht:
 
 clean:
 	rm *.db build/*
-
-run: sht
-	rm *.db; ./build/sht_main
