@@ -110,7 +110,7 @@
 
   #+name: fig-hashtable
   #+caption: Παράδειγμα μοντελοποίησης hashtable. Αν ο κάδος 1 αποτελείται από το block 7, τότε =hashtable[1] =​= 7=. Αν το block 7 κάποια στιγμή γεμίσει, τότε για να προστεθεί μια νέα εγγραφή στον κάδο 1 θα δημιουργηθεί ένα νέο block στο τέλος του αρχείου. Έστω ότι το νέο block έχει αριθμό---κι άρα =blockDesc=---11. Πλέον το =hashtable[1]= θα ενημερωθεί και θα αποκτήσει την τιμή 11, τον αριθμό δηλαδή του πιο πρόσφατου block του. Στο =HT_block_info= του block 11 ο αναγνωριστικός αριθμός =prevBlockDesc= θα αλλάξει από -1 και θα γίνει 7, έτσι ώστε να δείχνει στο προηγούμενο στη σειρά block. Άρα για κάθε κάδο έχουμε πρόσβαση σε όλα τα blocks του σειριακά.
-  #+attr_latex: :width 11cm # :placement [H]
+  #+attr_latex: :width 10cm
   [[file:Εικόνες/hashtable.svg]]
 
 **** Δομή =HT_block_info=
@@ -176,7 +176,7 @@
 
 #+caption: Υλοποίηση συνάρτησης =SHT_Hash=.
 #+name: sht_hash
-#+attr_latex: :width 12cm :placement [H]
+#+attr_latex: :placement [H]
 #+transclude: [[file:Exercise 1 & 2/src/sht_table.c]] :lines 19-37 :src C
 
 * Στατιστικά Κατακερματισμού
