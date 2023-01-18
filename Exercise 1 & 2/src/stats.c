@@ -24,21 +24,20 @@ int STATS_GetFiletype(char *filename, void *info) {
   int filetype = -1;
 
   HP_info *hp_info = (HP_info *)info;
+  HT_info *ht_info = (HT_info *)info;
+  SHT_info *sht_info = (SHT_info *)info;
 
   if (!strcmp(hp_info->filetype, "heap"))
     filetype = 1;
-  else if (!strcmp(hp_info->filetype, "hashtable"))
+  else if (!strcmp(ht_info->filetype, "hashtable"))
     filetype = 2;
-  else if (!strcmp(hp_info->filetype, "sec-index"))
+  else if (!strcmp(sht_info->filetype, "sec-index"))
     filetype = 3;
 
   return filetype;
 }
 
-int STATS_NumberOfBlocks(char *filename, void *info, int filetype) {
-
-  
-}
+int STATS_NumberOfBlocks(char *filename, void *info, int filetype) {}
 
 int STATS_MinRecordsNum(char *filename, void *info, int filetype) {
 
@@ -48,8 +47,6 @@ int STATS_MinRecordsNum(char *filename, void *info, int filetype) {
   if (filetype == 2) {
 
     HT_info *local_info = (HT_info *)info;
-
-    BF_OpenFile(filename, &local_info->fileDesc);
 
     for (int bucket = 0; bucket < local_info->numBuckets; bucket++) {
 
@@ -88,12 +85,10 @@ int STATS_MinRecordsNum(char *filename, void *info, int filetype) {
       BF_Block_Destroy(&block);
     }
 
-  /* Secondary Index */
+    /* Secondary Index */
   } else if (filetype == 3) {
 
     SHT_info *local_info = (SHT_info *)info;
-
-    BF_OpenFile(filename, &local_info->fileDesc);
 
     for (int bucket = 0; bucket < local_info->numBuckets; bucket++) {
 
@@ -249,31 +244,28 @@ int HashStatistics(char *filename, void *info) {
 
   case 2:
     printf("====== Αρχείο Κατακερματισμού ======\n\n");
-    printf("Πλήθος από blocks = %d\n",
-           STATS_NumberOfBlocks(filename, info, filetype));
 
   case 3:
     printf("====== Αρχείο Δευτερεύοντος Ευρετηρίου ======\n\n");
-    printf("Πλήθος από blocks = %d\n",
-           STATS_NumberOfBlocks(filename, info, filetype));
   }
 
-  int max_num_of_records = STATS_MinRecordsNum(filename, info, filetype);
-  int min_num_of_records = STATS_MaxRecordsNum(filename, info, filetype);
+  printf("Πλήθος από blocks = %d\n",
+         STATS_NumberOfBlocks(filename, info, filetype));
+  int min_num_of_records = STATS_MinRecordsNum(filename, info, filetype);
+  int max_num_of_records = STATS_MaxRecordsNum(filename, info, filetype);
 
   printf("Μέγιστο πλήθος εγγραφών κάθε bucket = %d\n", max_num_of_records);
   printf("Ελάχιστο πλήθος εγγραφών κάθε bucket = %d\n", min_num_of_records);
   printf("Μέσο πλήθος εγγραφών κάθε bucket = %d\n",
          (max_num_of_records + min_num_of_records) / 2);
 
-  /* int max_num_of_blocks = STATS_BlocksNum(filename, filetype, 1); */
-  /* int min_num_of_blocks = STATS_BlocksNum(filename, filetype, 2); */
+  int max_num_of_blocks = STATS_MaxBlocksNum(filename,info, filetype);
+  int min_num_of_blocks = STATS_MinBlocksNum(filename,info, filetype);
+  printf("Μέσος αριθμός blocks κάθε bucket = %d\n",
+         (max_num_of_blocks + min_num_of_blocks) / 2);
 
-  /* printf("Μέσος αριθμός blocks κάθε bucket = %d\n", */
-  /*        (max_num_of_blocks + min_num_of_blocks) / 2); */
-
-  /* if (STATS_PrintOverflowStats(filename, filetype)) */
-  /*   return -1; */
+  if (STATS_PrintOverflowStats(filename, info, filetype))
+    return -1;
 
   return 0;
 }
