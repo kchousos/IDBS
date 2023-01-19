@@ -15,7 +15,7 @@
 
 #+LATEX_HEADER: \usepackage[font={small}, labelfont={bf}]{caption}
 
-#+LATEX_HEADER: \setmainfont{Iosevka Aile Extralight}
+#+LATEX_HEADER: \setmainfont[BoldFont = {Iosevka Aile Light}, ItalicFont = {Iosevka Aile Extralight Italic}]{Iosevka Aile Extralight}
 #+LATEX_HEADER: \setmonofont{Iosevka}
 
 #+LATEX_HEADER: \usepackage{unicode-math}
