@@ -22,7 +22,7 @@
 #+LATEX_HEADER: \setmathfont{Fira Math}
 
 #+LATEX_HEADER: \usepackage{biblatex}
-#+LATEX_HEADER_EXTRA:\DefineBibliographyStrings{greek}{pagetotals = {σελίδες}}
+#+LATEX_HEADER: \AtEveryBibitem{\clearfield{pagetotal}}
 
 #+LATEX_HEADER: \usepackage[margin=1.3in]{geometry}
 
