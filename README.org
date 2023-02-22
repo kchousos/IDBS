@@ -7,7 +7,7 @@ This repository contains 3 database systems implementations, each using:
 
 This project was part of the [[https://eclass.uoa.gr/courses/D22/][Implementation of Database Systems]] course (2022-2023) of the [[https://www.di.uoa.gr/][Department of Informatics and Telecommunications of the University of Athens]].
 
-For more info on the project and an overview of the Implementation, see the [[file:Project Report.pdf][report]].
+For more info on the project and an overview of the Implementation, see the [[https://github.com/kchousos/IDBS/blob/main/Project%20Report.pdf][report]].
 
 * Contributors
 
